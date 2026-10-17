@@ -25,8 +25,8 @@
    Laisse vide pour configurer depuis Réglages > Compte Agora. */
 window.AGORA_CLOUD = { url: 'https://iiegjllgfqbjlegkafnl.supabase.co', anonKey: 'sb_publishable_5WJn0dElFR5OvzSMSxORag_-0GlqgM5' };
 /* Lien vers ton dépôt GitHub d'Agora (affiché sur la page Applications). Ex. 'https://github.com/ton-pseudo/agora' */
-window.AGORA_LINKS = { github: 'https://github.com/rvm-lua/Agora' };
-window.AGORA_VERSION = '0.7.0';
+window.AGORA_LINKS = { github: 'https://github.com/rvm-lua/Agora', downloads: 'https://github.com/rvm-lua/Agora/releases/latest/download/' };
+window.AGORA_VERSION = '0.8.0';
 </script>
 <script>
 /* thinking-orbs engine — © 2026 Jakub Antalik, MIT License — https://github.com/Jakubantalik/thinking-orbs */
@@ -480,6 +480,13 @@ main.dropping::after{content:"Dépose tes fichiers ici";position:absolute;inset:
 .approw .btn:disabled{opacity:.55;cursor:default}
 .appactions{display:flex;gap:6px;flex-wrap:wrap}
 .appactions .btn.on{border-color:var(--accent);color:var(--accent)}
+.appcard.ready{border-color:color-mix(in srgb,var(--accent) 35%,var(--line))}
+.appsize{color:var(--faint);font-size:12px;margin-left:2px}
+.approw a.btn{text-decoration:none;display:inline-flex;align-items:center;gap:6px}
+.apphow{font-size:13.5px;color:var(--muted);border:1px solid var(--line);border-radius:12px;padding:8px 12px;background:var(--bg)}
+.apphow summary{cursor:pointer;color:var(--text);font-weight:500}
+.apphow ol{margin:8px 0 2px;padding-left:20px;display:flex;flex-direction:column;gap:5px}
+.apphow code,.apphow kbd{font:12px var(--f-mono);border:1px solid var(--line);border-radius:4px;padding:0 4px;background:var(--raise)}
 .art{margin-top:auto;border:1px solid var(--line);border-radius:12px;background:var(--bg);height:150px;position:relative;overflow:hidden;font-size:11px}
 .art .bar{display:flex;align-items:center;gap:5px;padding:7px 10px;border-bottom:1px solid var(--line);color:var(--faint);font-family:var(--f-mono)}
 .art .bar i{width:8px;height:8px;border-radius:50%;background:var(--line)}
@@ -642,7 +649,7 @@ main.dropping::after{content:"Dépose tes fichiers ici";position:absolute;inset:
   <button class="side-btn" data-open="plugins"><svg class="icon"><use href="#i-plug"/></svg>Plugins &amp; codes</button>
   <button class="side-btn" data-open="projets"><svg class="icon"><use href="#i-folder"/></svg>Mes projets<span class="meta" id="sideProj"></span></button>
   <button class="side-btn" data-open="assistants"><svg class="icon"><use href="#i-users"/></svg>Assistants</button>
-  <button class="side-btn" id="appsBtn"><svg class="icon"><use href="#i-apps"/></svg>Applications<span class="meta"><span class="pill dev" style="font-size:10px">bientôt</span></span></button>
+  <button class="side-btn" id="appsBtn"><svg class="icon"><use href="#i-apps"/></svg>Applications<span class="meta"><span class="pill ok" style="font-size:10px">nouveau</span></span></button>
   <div class="side-label">Récents</div>
   <div id="convList"></div>
   <button class="side-btn" data-open="suggestion" style="margin-top:6px"><svg class="icon"><use href="#i-chat"/></svg>Envoyer une suggestion</button>
@@ -2423,16 +2430,25 @@ function pickAgent(id){
    PAGE APPLICATIONS (en développement)
    ===================================================================== */
 const APPS = [
-  { id:'windows', title:'Application Windows', desc:'Agora sur ton PC : un raccourci clavier pour l\'ouvrir de partout, tes fichiers locaux, les notifications.', rows:[['Windows','i-win']], art:'win' },
-  { id:'mobile', title:'Mobile', desc:'Discute en déplacement, dicte tes messages, retrouve tes conversations synchronisées.', rows:[['iOS','i-phone'],['Android','i-phone']], art:'phone' },
-  { id:'vscode', title:'Extension VS Code', desc:'Agora dans ton éditeur : explique ou corrige la sélection, codes secrets, envoi direct dans tes fichiers.', rows:[['VS Code','i-code','https://marketplace.visualstudio.com/items?itemName=Rvm-lua.agora'],['Cursor','i-code','https://marketplace.visualstudio.com/items?itemName=Rvm-lua.agora']], art:'editor', live:true },
-  { id:'chrome', title:'Extension Chrome', desc:'Résume la page, explique le code d\'un dépôt GitHub, aide à remplir des formulaires.', rows:[['Chrome','i-globe'],['Edge','i-globe']], art:'browser' },
+  { id:'windows', title:'Application Windows', ready:true, desc:'Un agent de code sur ton PC, comme Claude Code : ouvre ton projet, Agora lit, modifie et crée les fichiers et lance des commandes, avec ta validation à chaque étape.',
+    rows:[['Windows 10 / 11', 'i-win', 'Agora-Setup.exe', '88 Mo']], art:'win',
+    how:['Télécharge <b>Agora-Setup.exe</b> et lance-le.', 'Si Windows affiche « Windows a protégé votre ordinateur » : <b>Informations complémentaires</b>, puis <b>Exécuter quand même</b> (l\'app n\'est pas encore signée).', 'Ouvre Agora, clique sur <b>Ouvrir un dossier</b> et choisis ton projet.'] },
+  { id:'vscode', title:'Extension VS Code', ready:true, desc:'Agora dans ton éditeur : il lit et modifie tes fichiers directement, avec un diff à valider (Accepter / Refuser), comme l\'extension Claude Code.',
+    rows:[['VS Code', 'i-code', 'agora-vscode.vsix', '40 Ko'], ['Cursor', 'i-code', 'agora-vscode.vsix', '40 Ko']], art:'editor',
+    how:['Télécharge <b>agora-vscode.vsix</b>.', 'Dans VS Code ou Cursor : <kbd>Ctrl+Maj+P</kbd> → <b>Extensions: Install from VSIX…</b> et choisis le fichier.', 'Clique sur l\'icône Agora dans la barre de gauche.'] },
+  { id:'chrome', title:'Extension Chrome', ready:true, manual:true, desc:'Un panneau à côté de tes pages : résume la page, explique ou traduit un texte d\'un clic droit, discute avec toutes les IA.',
+    rows:[['Chrome, Edge, Brave, Opera', 'i-globe', 'agora-chrome.zip', '50 Ko']], art:'browser',
+    how:['Télécharge <b>agora-chrome.zip</b> et dézippe-le.', 'Ouvre <code>chrome://extensions</code> (ou <code>edge://extensions</code>) et active le <b>Mode développeur</b>.', 'Clique sur <b>Charger l\'extension non empaquetée</b> et choisis le dossier dézippé.'] },
+  { id:'mobile', title:'Mobile', desc:'Discute en déplacement, dicte tes messages, retrouve tes conversations synchronisées.', rows:[['iOS','i-phone'],['Android','i-phone']], art:'phone', pwa:true },
+  { id:'discord', title:'Bot Discord', desc:'Agora dans ton serveur : réponses aux questions des joueurs, annonces, modération assistée.', rows:[['Discord','i-chat']], art:'discord' },
+  { id:'fivem', title:'Ressource FiveM', desc:'Une commande en jeu pour ton staff : aide sur les règles, logs du serveur expliqués, réponses rapides.', rows:[['FiveM','i-code']], art:'game' },
 ];
+const dlBase = () => window.AGORA_LINKS?.downloads || ((window.AGORA_LINKS?.github || 'https://github.com/rvm-lua/Agora') + '/releases/latest/download/');
 let installEvt = null;
 addEventListener('beforeinstallprompt', e => { e.preventDefault(); installEvt = e });
 function appArt(kind){
   const L = 'var(--line)', R = 'var(--raise)', A = 'var(--accent)';
-  if (kind === 'win') return `<div class="art win"><div class="bar"><i></i><i></i><i></i><span>Agora</span></div><div class="body"><div class="side"></div><div class="main"><div class="b"></div><div class="b s"></div><div class="input"><kbd>Alt</kbd>+<kbd>Espace</kbd></div></div></div></div>`;
+  if (kind === 'win') return `<div class="art win"><div class="bar"><i></i><i></i><i></i><span>Agora</span></div><div class="body"><div class="side"></div><div class="main"><div class="b"></div><div class="b s"></div><div class="input">Ouvrir un dossier…</div></div></div></div>`;
   if (kind === 'phone') return `<div class="art phone"><div class="notch"></div><div class="b">Résume mes messages d'hier</div><div class="b r"></div><div class="b r s"></div><div class="mic"></div></div>`;
   if (kind === 'editor') return `<div class="art editor"><div class="code"><span style="width:60%"></span><span style="width:80%;margin-left:12px"></span><span style="width:45%;margin-left:12px;background:${A}"></span><span style="width:70%;margin-left:24px"></span><span style="width:30%"></span></div><div class="panel"><div class="b">/debug</div><div class="b r"></div></div></div>`;
   if (kind === 'browser') return `<div class="art browser"><div class="bar"><i></i><i></i><i></i><span>github.com/…/main.lua</span></div><div class="body"><div class="page"><span></span><span></span><span class="s"></span></div><div class="panel"><div class="b">Explique ce fichier</div><div class="b r"></div></div></div></div>`;
@@ -2444,11 +2460,12 @@ function openApps(){
   const interest = new Set(store.get('appsInterest', []));
   const gl = window.AGORA_LINKS?.github;
   const s2 = document.createElement('div'); s2.className = 'scrim apps-scrim';
-  s2.innerHTML = `<div class="apps" role="dialog" aria-label="Applications"><div class="apps-head"><div><h2>Agora partout</h2><p>Les applications et extensions arrivent. Clique sur « Me prévenir » pour celles qui t'intéressent.</p></div><button class="iconbtn" data-close title="Fermer"><svg class="icon"><use href="#i-x"/></svg></button></div>
-    <div class="apps-grid">${APPS.map(a => `<section class="appcard"><div class="apptop"><h3>${a.title}</h3>${a.live ? '<span class="pill ok">Disponible</span>' : '<span class="pill dev">En développement</span>'}</div><p>${a.desc}</p>
-      <div class="approws">${a.rows.map(([n, ic, url]) => `<div class="approw"><span><svg class="icon"><use href="#${ic}"/></svg>${n}</span>${url ? `<a class="btn sm prim" href="${esc(url)}" target="_blank" rel="noopener">Installer</a>` : '<button class="btn sm" disabled>Bientôt</button>'}</div>`).join('')}
+  s2.innerHTML = `<div class="apps" role="dialog" aria-label="Applications"><div class="apps-head"><div><h2>Agora partout</h2><p>Télécharge l'application PC et les extensions, gratuites. Les autres arrivent : clique sur « Me prévenir » pour celles qui t'intéressent.</p></div><button class="iconbtn" data-close title="Fermer"><svg class="icon"><use href="#i-x"/></svg></button></div>
+    <div class="apps-grid">${APPS.map(a => `<section class="appcard${a.ready ? ' ready' : ''}"><div class="apptop"><h3>${a.title}</h3>${a.ready ? `<span class="pill ok">${a.manual ? 'Installation manuelle' : 'Disponible'}</span>` : '<span class="pill dev">En développement</span>'}</div><p>${a.desc}</p>
+      <div class="approws">${a.rows.map(([n, ic, f, size]) => `<div class="approw"><span><svg class="icon"><use href="#${ic}"/></svg>${n}${size ? `<small class="appsize">${size}</small>` : ''}</span>${f ? `<a class="btn sm prim" href="${esc(dlBase() + f)}" download><svg class="icon" style="width:14px;height:14px"><use href="#i-dl"/></svg>Télécharger</a>` : '<button class="btn sm" disabled>Bientôt</button>'}</div>`).join('')}
       ${a.pwa ? `<div class="approw"><span><svg class="icon"><use href="#i-dl"/></svg>Version web à installer <span class="pill ok">disponible</span></span><button class="btn sm prim" data-pwa>Installer</button></div>` : ''}</div>
-      ${a.live ? '' : `<div class="appactions"><button class="btn sm${interest.has(a.id) ? ' on' : ''}" data-int="${a.id}">${interest.has(a.id) ? '✓ Tu seras prévenu' : 'Me prévenir'}</button>${gl ? `<a class="btn sm ghost" href="${esc(gl)}" target="_blank" rel="noopener"><svg class="icon" style="width:14px;height:14px"><use href="#i-gh"/></svg>Suivre sur GitHub</a>` : ''}</div>`}
+      ${a.how ? `<details class="apphow"><summary>Comment installer</summary><ol>${a.how.map(h => `<li>${h}</li>`).join('')}</ol></details>` : ''}
+      <div class="appactions">${a.ready ? '' : `<button class="btn sm${interest.has(a.id) ? ' on' : ''}" data-int="${a.id}">${interest.has(a.id) ? '✓ Tu seras prévenu' : 'Me prévenir'}</button>`}${gl ? `<a class="btn sm ghost" href="${esc(gl)}" target="_blank" rel="noopener"><svg class="icon" style="width:14px;height:14px"><use href="#i-gh"/></svg>${a.ready ? 'Code source' : 'Suivre sur GitHub'}</a>` : ''}<a class="btn sm ghost" href="confidentialite.html" target="_blank" rel="noopener"${a.ready ? '' : ' hidden'}>Confidentialité</a></div>
       ${appArt(a.art)}</section>`).join('')}</div></div>`;
   document.body.append(s2);
   s2.onclick = e => { if (e.target === s2 || e.target.closest('[data-close]')) s2.remove() };
