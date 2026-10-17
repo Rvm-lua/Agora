@@ -25,7 +25,7 @@
    Laisse vide pour configurer depuis Réglages > Compte Agora. */
 window.AGORA_CLOUD = { url: 'https://iiegjllgfqbjlegkafnl.supabase.co', anonKey: 'sb_publishable_5WJn0dElFR5OvzSMSxORag_-0GlqgM5' };
 /* Lien vers ton dépôt GitHub d'Agora (affiché sur la page Applications). Ex. 'https://github.com/ton-pseudo/agora' */
-window.AGORA_LINKS = { github: 'https://github.com/rvm-lua/Agora', downloads: 'https://github.com/rvm-lua/Agora/releases/latest/download/' };
+window.AGORA_LINKS = { github: 'https://github.com/rvm-lua/Agora', downloads: 'https://github.com/Rvm-lua/Agora/releases/download/v0.8.0/' };
 window.AGORA_VERSION = '0.8.0';
 </script>
 <script>
@@ -2439,11 +2439,8 @@ const APPS = [
   { id:'chrome', title:'Extension Chrome', ready:true, manual:true, desc:'Un panneau à côté de tes pages : résume la page, explique ou traduit un texte d\'un clic droit, discute avec toutes les IA.',
     rows:[['Chrome, Edge, Brave, Opera', 'i-globe', 'agora-chrome.zip', '50 Ko']], art:'browser',
     how:['Télécharge <b>agora-chrome.zip</b> et dézippe-le.', 'Ouvre <code>chrome://extensions</code> (ou <code>edge://extensions</code>) et active le <b>Mode développeur</b>.', 'Clique sur <b>Charger l\'extension non empaquetée</b> et choisis le dossier dézippé.'] },
-  { id:'mobile', title:'Mobile', desc:'Discute en déplacement, dicte tes messages, retrouve tes conversations synchronisées.', rows:[['iOS','i-phone'],['Android','i-phone']], art:'phone', pwa:true },
-  { id:'discord', title:'Bot Discord', desc:'Agora dans ton serveur : réponses aux questions des joueurs, annonces, modération assistée.', rows:[['Discord','i-chat']], art:'discord' },
-  { id:'fivem', title:'Ressource FiveM', desc:'Une commande en jeu pour ton staff : aide sur les règles, logs du serveur expliqués, réponses rapides.', rows:[['FiveM','i-code']], art:'game' },
 ];
-const dlBase = () => window.AGORA_LINKS?.downloads || ((window.AGORA_LINKS?.github || 'https://github.com/rvm-lua/Agora') + '/releases/latest/download/');
+const dlBase = () => window.AGORA_LINKS?.downloads || ((window.AGORA_LINKS?.github || 'https://github.com/rvm-lua/Agora') + '/releases/latest/download/v0.8.0/');
 let installEvt = null;
 addEventListener('beforeinstallprompt', e => { e.preventDefault(); installEvt = e });
 function appArt(kind){
