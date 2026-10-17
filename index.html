@@ -2692,7 +2692,7 @@ function togglePlugin(id){
    ===================================================================== */
 const AGORA_VERSION = window.AGORA_VERSION || 'dev';
 var SYNC_KEYS = ['keys','convs','projects','activeProject','settings','plugins','modes','codesOff','usage','design','current','permMode','coding','ghUser','agents','myCodes','compareOn','compareSel','appsInterest'];
-const SSO = [ ['google','Google','#4285f4','G'], ['discord','Discord','#5865f2','D'], ['github','GitHub','#24292f','G'], ['apple','Apple','#000000','A'] ];
+const SSO = [ ['discord','Discord','#5865f2','D'], ['github','GitHub','#24292f','G'] ];
 const SETUP_SQL = `create table if not exists public.agora_state (
   user_id uuid primary key references auth.users on delete cascade,
   data jsonb not null,
