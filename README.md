@@ -14,66 +14,63 @@
 
 ## Présentation
 
-Agora est un chat d'IA qui réunit plusieurs fournisseurs au même endroit : Gemini, Groq, OpenRouter, Mistral, Cerebras, et aussi Claude, ChatGPT et Grok si tu as une clé. Tu peux discuter tout de suite, sans compte, grâce à **Agora Gratuit**.
+Agora est une application web de chat multi‑IA. Elle regroupe immédiatement plusieurs fournisseurs (Gemini, Groq, OpenRouter, Mistral, Cerebras, Claude, ChatGPT, Grok, etc.) dans votre navigateur. Les clés API restent localement, sauf option de synchronisation.
 
-Tout se passe dans ton navigateur. Tes clés API et tes conversations restent sur ton appareil, sauf si tu choisis de les synchroniser avec un compte Agora.
+## Fonctionnalités clés
 
-## Fonctionnalités
+### Chat simple
+- Choisissez un **mode** (Polyvalent, Rapide, Code, Réflexion, Images) et Agora sélectionne l’IA la plus adaptée.
+- Spécifiez un modèle précis (Claude Opus, Sonnet, Haiku… ; GPT‑4.1 ; Gemini 2.5 Pro, Flash, etc.).
+- **Comparer** deux ou trois réponses côte à côte et choisissez la meilleure.
+- **Pièces jointes** : images, écrans, fichier de code, PDF.
+- **Branches** : modifiez un message afin de créer un nouvel historique sans perdre les versions précédentes.
+- **Assistants** prêts à l’emploi (Dev FiveM, Support joueurs, Annonces Discord…) ou créés sur mesure.
+- **Commandes courtes** (ex. `/premortem`, `/80‑20`, `/hormozi`, `/debug`, `/logs`) et vos propres raccourcis.
+- **Modes d’usage** (concise, expert, pirate…) et **plugins** activables (Superpowers, OmniRoute, RTK, Graphify, Claude Security, HyperFrames…).
 
-### Discuter
-- **Choix simple** : tu choisis entre Polyvalent, Rapide, Code, Réflexion ou Images, et Agora prend la meilleure IA disponible.
-- **Versions des modèles** : tu peux aussi choisir une IA et sa version précise (Claude Opus, Sonnet, Haiku, Fable ; GPT-4.1 ; Gemini 2.5 Pro ou Flash, etc.).
-- **Comparer** : 2 ou 3 IA répondent côte à côte, puis tu gardes la meilleure réponse.
-- **Pièces jointes** : images, captures d'écran, fichiers de code et PDF.
-- **Branches** : tu modifies un ancien message et l'IA repart de là, sans perdre la version précédente.
-- **Assistants** : rôles prêts à l'emploi (Dev FiveM, Support joueurs, Annonces Discord…) ou créés par toi.
-- **Codes secrets** : `/premortem`, `/80-20`, `/hormozi`, `/debug`, `/logs`… et tes propres codes.
-- **Modes** de ton (concis, expert, pirate…) et **plugins** activables (Superpowers, OmniRoute, RTK, Graphify, Claude Security, HyperFrames…).
+### Mode Code dédié
+- Spécifiez la plateforme cible (FiveM, RedM, Roblox, Minecraft, Unity, iOS, Android, Web…).
+- Documentation **auto‑extrait** : Agora lit la doc officielle et fournit les passages pertinents à l’IA.
+- Panneau **Aperçu / Code** : code en direct à droite, aperçu web et console.
+- **Intégration GitHub** : l’IA lit votre dépôt, propose des modifications sur une branche et ouvre une pull‑request.
+- **Agents de code** : confiez une tâche à GitHub Copilot ou à Cursor directement depuis Agora.
+- Modes de *permission* (Demander, Auto ou Plan) accessibles via `Shift+Tab`.
+- Analyse de logs FiveM, regroupement d’erreurs par ressource et proposition de correctifs.
 
-### Coder
-- **Mode Code** avec ta plateforme : FiveM, RedM, Roblox, Minecraft, Unity, iOS, Android, Web…
-- **Documentation officielle automatique** : Agora lit la doc de ta plateforme et de ton framework, puis donne les bons extraits à l'IA.
-- **Panneau Aperçu / Code** : le code s'affiche en direct à droite, avec un aperçu des pages web et une console.
-- **GitHub** : l'IA lit ton dépôt, envoie ses modifications sur une branche et ouvre une pull request.
-- **Agents de code** : tu peux confier une tâche à GitHub Copilot ou à Cursor directement depuis Agora.
-- **Modes de permission** comme Claude Code : Demander, Auto ou Plan (raccourci `Maj+Tab`).
-- **Analyse de logs FiveM** : les erreurs sont regroupées par ressource, avec un correctif pour chacune.
+### Personnalisation
+- Design : thème clair/sombre, 8 palettes, couleurs, polices, arrondis, fond animé.
+- **Suivi token** par IA et modèle.
+- **Compte Agora** (facultatif) : authentifiez via Google, Discord, GitHub, Apple ou mail; synchronisez vos données dans Supabase; chiffrement AES‑256 via phrase secrète.
+- Exportable comme application native (Windows, macOS, Linux, iOS, Android) par future release.
 
-### Personnaliser
-- **Design** : thème clair ou sombre, 8 palettes, couleurs, polices, arrondis et fond animé.
-- **Suivi des tokens** par IA et par modèle.
-- **Compte Agora** (facultatif) : connexion avec Google, Discord, GitHub, Apple ou par e-mail, synchronisation entre appareils et chiffrement de bout en bout en option.
-- **Installable** comme une application sur téléphone et sur PC.
+## Démarrage rapide (30 s)
+1. Accédez à https://rvm-lua.github.io/Agora/
+2. Tapez un message : **Agora Gratuit** répond immédiatement.
+3. Pour des IA plus robustes, ouvrez “Comptes IA”, cliquez sur **Lier** à côté de Gemini, Groq ou OpenRouter, créez votre clé et collez‑la.
 
-## Démarrer en 30 secondes
+## Confidentialité & Sécurité
 
-1. Ouvre le site.
-2. Écris ton message : **Agora Gratuit** répond déjà, sans rien configurer.
-3. Pour des IA plus rapides, va dans **Comptes IA**, clique sur **Lier** à côté d'une IA gratuite (Gemini, Groq ou OpenRouter), crée ta clé et colle-la.
-
-## Confidentialité
-
-- **Sans compte**, tout reste dans le navigateur (localStorage). Rien ne passe par un serveur Agora.
-- Les messages vont **directement** de ton navigateur à l'IA que tu as choisie.
-- **Avec un compte**, les données sont synchronisées dans la base Supabase du propriétaire du site. Avec une **phrase secrète**, elles sont chiffrées dans ton navigateur avant l'envoi (AES-256).
-- La lecture de documentation passe par [Jina Reader](https://jina.ai/reader/). Tu peux changer ce service dans **Réglages**, puis **Général**.
+- Sans compte : tout est local (`localStorage`). Aucun flux vers nos serveurs.
+- Les messages transitent directement du navigateur à l’IA ciblée.
+- Avec compte : les données se synchronisent dans la base Supabase (chiffrée optionnellement).
+- La lecture de documentation passe par [Jina Reader](https://jina.ai/reader/), modifiable dans **Réglages > Général**.
 
 ## Feuille de route
 
-- [x] Chat multi-IA, comparaison, pièces jointes, assistants
-- [x] Mode Code, documentation automatique, GitHub, agents Copilot et Cursor
-- [x] Comptes et synchronisation
+- [x] Chat multi‑IA, comparaison, pièces jointes, assistants
+- [x] Mode Code, documentation auto, GitHub, agents Copilot & Cursor
+- [x] Comptes & synchronisation
 - [ ] Application Windows
-- [ ] Applications iOS et Android
-- [x] [Extension VS Code et Cursor](https://marketplace.visualstudio.com/items?itemName=Rvm-lua.agora)
+- [ ] Applications iOS/Android
+- [x] Extension VS Code & Cursor
 - [ ] Extension Chrome
 
-## Contribuer
+## Contribution
 
-Les idées et les bugs sont les bienvenus : utilise l'onglet **Suggestion** dans Agora, ou ouvre une [issue](https://github.com/rvm-lua/Agora/issues).
+Vos idées et bugs sont toujours les bienvenus. Ouvrez un ticket via l’onglet **Suggestion** dans Agora ou créez une [issue](https://github.com/rvm-lua/Agora/issues).
 
 ## Crédits
 
-- Orbes animées : [thinking-orbs](https://github.com/Jakubantalik/thinking-orbs), © Jakub Antalik, licence MIT.
+- Orbes animées : [thinking‑orbs](https://github.com/Jakubantalik/thinking-orbs) © Jakub Antalik, licence MIT.
 - Bibliothèques : marked, DOMPurify, highlight.js, Mermaid, pdf.js, supabase-js.
-- Agora Gratuit est fourni par [Pollinations.ai](https://pollinations.ai).
+- Agora Gratuit fourni par [Pollinations.ai](https://pollinations.ai).
