@@ -35,6 +35,39 @@ select{flex:1;min-width:90px;background:var(--vscode-dropdown-background);color:
 .code .bar button{padding:2px 6px;border-radius:3px;font-size:11px}
 .code .bar button:hover{background:var(--vscode-toolbar-hoverBackground)}
 .code pre{margin:0;padding:8px 10px;overflow-x:auto;font-family:var(--vscode-editor-font-family);font-size:var(--vscode-editor-font-size)}
+.link.ghost{background:none;color:var(--vscode-textLink-foreground);border:1px solid var(--vscode-panel-border)}
+.tools{display:flex;flex-direction:column;gap:4px;margin-bottom:6px}.tools:empty{display:none}
+.tools .info{border:0;padding:1px 0;font-family:var(--vscode-editor-font-family)}
+.tools .info::before{content:"● ";color:var(--vscode-textLink-foreground)}
+.ap{border:1px solid var(--vscode-focusBorder);border-radius:8px;overflow:hidden;background:var(--vscode-editorWidget-background)}
+.ap.done{border-color:var(--vscode-panel-border);opacity:.9}
+.ap .h{display:flex;align-items:center;gap:6px;padding:6px 8px;font-size:12px;border-bottom:1px solid var(--vscode-panel-border)}
+.ap .h b{font-family:var(--vscode-editor-font-family);font-weight:600;flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.ap .h .p{color:var(--vscode-gitDecoration-addedResourceForeground,#3fb950)}.ap .h .m{color:var(--vscode-gitDecoration-deletedResourceForeground,#f85149)}
+.ap .d{font-family:var(--vscode-editor-font-family);font-size:12px;max-height:220px;overflow:auto;margin:0;padding:4px 0}
+.ap .d div{white-space:pre;padding:0 8px}
+.ap .d .a{background:var(--vscode-diffEditor-insertedLineBackground,rgba(63,185,80,.15));color:var(--vscode-foreground)}
+.ap .d .r{background:var(--vscode-diffEditor-removedLineBackground,rgba(248,81,73,.15));color:var(--vscode-foreground)}
+.ap .d .s{color:var(--vscode-descriptionForeground);text-align:center}
+.ap .q{display:flex;gap:6px;flex-wrap:wrap;align-items:center;padding:6px 8px;border-top:1px solid var(--vscode-panel-border);font-size:12px}
+.ap .q span{margin-right:auto}
+.ap .q button{font-size:11.5px;padding:3px 9px;border-radius:4px;border:1px solid var(--vscode-panel-border)}
+.ap .q button.y{background:var(--vscode-button-background);color:var(--vscode-button-foreground);border-color:transparent}
+.ap .q button:hover{filter:brightness(1.1)}
+.info{font-size:11px;color:var(--vscode-descriptionForeground);border:1px dashed var(--vscode-panel-border);border-radius:6px;padding:3px 8px;align-self:flex-start}
+.prop{border:1px solid var(--vscode-focusBorder);border-radius:8px;padding:8px 10px;display:flex;flex-direction:column;gap:6px;background:var(--vscode-editorWidget-background)}
+.prop.done{border-color:var(--vscode-panel-border)}
+.prop b{font-size:12px}
+.frow{display:flex;align-items:center;gap:6px;font-size:12px}
+.frow .fn{font-family:var(--vscode-editor-font-family);flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.frow .st{font-family:var(--vscode-editor-font-family);font-size:11px}
+.frow .st .p{color:var(--vscode-gitDecoration-addedResourceForeground,#3fb950)}.frow .st .m{color:var(--vscode-gitDecoration-deletedResourceForeground,#f85149)}
+.frow .new{font-size:10px;border:1px solid var(--vscode-panel-border);border-radius:8px;padding:0 5px}
+.frow button,.prop .acts button{font-size:11px;padding:2px 7px;border-radius:4px;border:1px solid var(--vscode-panel-border)}
+.frow button:hover,.prop .acts button:hover{background:var(--vscode-toolbar-hoverBackground)}
+.prop .acts{display:flex;gap:6px;flex-wrap:wrap}
+.prop .acts .pri{background:var(--vscode-button-background);color:var(--vscode-button-foreground);border-color:transparent}
+.ok{color:var(--vscode-gitDecoration-addedResourceForeground,#3fb950)}
 .err{color:var(--vscode-errorForeground);border:1px solid var(--vscode-inputValidation-errorBorder);border-radius:6px;padding:6px 10px}
 .err button{text-decoration:underline;margin-left:4px}
 .cursor::after{content:"▍";animation:b 1s steps(2) infinite;color:var(--vscode-textLink-foreground)}
@@ -61,6 +94,8 @@ textarea{flex:1;border:0;background:none;color:var(--vscode-input-foreground);fo
   <select id="prov" title="IA"></select>
   <select id="model" title="Modèle"></select>
   <button class="link" id="linkBtn" hidden>Lier</button>
+  <select id="mode" title="Quand l'IA veut modifier tes fichiers"><option value="ask">Demander avant de modifier</option><option value="auto">Auto : modifier directement</option></select>
+  <button class="link ghost" id="undoBtn" hidden title="Annuler les dernières modifications d'Agora">Annuler</button>
 </div>
 <div id="log"></div>
 <div class="bottom">
@@ -108,7 +143,7 @@ function md(src){
 }
 function save(){ vscode.setState({ html: $('#log').innerHTML }) }
 function empty(){
-  $('#log').innerHTML = `<div class="empty"><img src="%ICON%" alt=""><b>Agora</b><span>Pose une question, ou sélectionne du code et fais clic droit → Agora.</span><div class="chips"><button data-q="/explique">Expliquer ce fichier</button><button data-q="/debug">Trouver le bug</button><button data-q="/review">Revue de code</button></div></div>`;
+  $('#log').innerHTML = `<div class="empty"><img src="%ICON%" alt=""><b>Agora</b><span>Pose une question, ou sélectionne du code et fais clic droit → Agora. Agora peut lire et modifier les fichiers du dossier ouvert.</span><div class="chips"><button data-q="/explique">Expliquer ce fichier</button><button data-q="/debug">Trouver le bug</button><button data-q="/review">Revue de code</button></div></div>`;
 }
 function scroll(){ const l = $('#log'); l.scrollTop = l.scrollHeight }
 function addUser(t){ $('#log').querySelector('.empty')?.remove(); const d = document.createElement('div'); d.className = 'u'; d.textContent = t; $('#log').append(d); scroll() }
@@ -123,6 +158,14 @@ $('#log').addEventListener('click', e => {
     else vscode.postMessage({ type:'insert', code, mode:b.dataset.a === 'insert' ? 'cursor' : b.dataset.a, lang: box.dataset.lang });
   }
   const l = e.target.closest('[data-link]'); if (l) vscode.postMessage({ type:'link', provider:l.dataset.link });
+  const pa = e.target.closest('[data-p]'); if (pa){
+    const card = pa.closest('.prop'), id = card.dataset.id, act = pa.dataset.p;
+    if (act === 'diff') vscode.postMessage({ type:'diff', id, path:pa.dataset.path });
+    if (act === 'one') vscode.postMessage({ type:'apply', id, paths:[pa.dataset.path] });
+    if (act === 'all') vscode.postMessage({ type:'apply', id, paths:[...card.querySelectorAll('[data-path]')].map(x => x.dataset.path).filter((v, i, a) => a.indexOf(v) === i) });
+    if (act === 'skip'){ vscode.postMessage({ type:'discard', id }); card.classList.add('done'); card.querySelector('.acts').innerHTML = '<span class="info">Ignoré</span>'; card.querySelectorAll('.frow button').forEach(b => b.remove()); save() }
+  }
+  if (e.target.closest('[data-open-folder]')) vscode.postMessage({ type:'openFolder' });
 });
 function submit(){
   if (busy){ vscode.postMessage({ type:'stop' }); return }
@@ -154,6 +197,8 @@ $('#prov').onchange = e => vscode.postMessage({ type:'setProvider', provider:e.t
 $('#model').onchange = e => vscode.postMessage({ type:'setModel', model:e.target.value });
 $('#model').onfocus = () => { if ($('#model').dataset.loaded !== state.provider) vscode.postMessage({ type:'listModels' }) };
 $('#linkBtn').onclick = () => vscode.postMessage({ type:'link', provider:state.provider });
+$('#mode').onchange = e => vscode.postMessage({ type:'setAuto', value: e.target.value === 'auto' });
+$('#undoBtn').onclick = () => vscode.postMessage({ type:'undo' });
 
 window.addEventListener('message', ({ data:m }) => {
   if (m.type === 'state'){
@@ -162,6 +207,7 @@ window.addEventListener('message', ({ data:m }) => {
     if ($('#model').dataset.loaded !== m.provider) $('#model').innerHTML = `<option>${esc(m.model)}</option>`;
     else [...$('#model').options].forEach(o => o.selected = o.value === m.model);
     const p = m.providers.find(x => x.id === m.provider); $('#linkBtn').hidden = !p || p.linked;
+    $('#mode').value = m.autoApply ? 'auto' : 'ask'; $('#mode').hidden = !m.hasFolder; $('#undoBtn').hidden = !m.canUndo;
     $('#ctxRow').innerHTML = m.context ? `Contexte : <button id="ctxBtn" class="${m.includeFile ? '' : 'off'}" title="Cliquer pour activer ou désactiver">${esc(m.context.name)} · ${esc(m.context.range)}</button>` : 'Aucun fichier ouvert';
     $('#ctxBtn')?.addEventListener('click', () => vscode.postMessage({ type:'toggleFile' }));
   }
@@ -173,11 +219,23 @@ window.addEventListener('message', ({ data:m }) => {
   if (m.type === 'userEcho') addUser(m.text);
   if (m.type === 'start'){
     setBusy(true); curText = '';
-    cur = document.createElement('div'); cur.className = 'a'; cur.innerHTML = `<div class="who">${esc(m.model)}</div><div class="body cursor"></div>`;
+    cur = document.createElement('div'); cur.className = 'a'; cur.innerHTML = `<div class="who">${esc(m.model)}</div><div class="tools"></div><div class="body cursor"></div>`;
     $('#log').querySelector('.empty')?.remove(); $('#log').append(cur); scroll();
   }
   if (m.type === 'delta' && cur){ curText += m.text; cur.querySelector('.body').innerHTML = md(curText); scroll() }
-  if (m.type === 'done'){ cur?.querySelector('.body').classList.remove('cursor'); if (cur && !curText) cur.querySelector('.body').textContent = '(réponse vide)'; cur = null; setBusy(false); save() }
+  if (m.type === 'done'){ cur?.querySelector('.body').classList.remove('cursor'); if (cur && !curText) cur.querySelector('.body').textContent = cur.querySelector('.tools').childElementCount ? 'Terminé.' : '(réponse vide)'; cur = null; setBusy(false); save() }
+  if (m.type === 'approve'){
+    const d = document.createElement('div'); d.className = 'ap'; d.dataset.req = m.reqId;
+    const cls = { '+':'a', '-':'r', '…':'s', ' ':'' };
+    d.innerHTML = `<div class="h">${m.isNew ? 'Créer' : 'Modifier'} <b title="${esc(m.path)}">${esc(m.path)}</b><span class="p">+${m.add}</span><span class="m">−${m.del}</span></div>`
+      + `<div class="d">${m.diff.map(o => `<div class="${cls[o.t] || ''}">${o.t === '…' ? '⋯' : esc((o.t === ' ' ? '  ' : o.t + ' ') + o.l)}</div>`).join('')}</div>`
+      + `<div class="q"><span>Appliquer cette modification ?</span><button class="y" data-d="yes">Accepter</button><button data-d="always">Toujours accepter</button><button data-d="no">Refuser</button><button data-d="view">Voir</button></div>`;
+    d.querySelector('.q').onclick = e => { const b = e.target.closest('[data-d]'); if (!b) return;
+      if (b.dataset.d === 'view'){ vscode.postMessage({ type:'showDiff', reqId:m.reqId, path:m.path }); return }
+      vscode.postMessage({ type:'approval', reqId:m.reqId, decision:b.dataset.d });
+      d.classList.add('done'); d.querySelector('.q').innerHTML = b.dataset.d === 'no' ? '<span>Refusé</span>' : `<span class="ok">✓ Appliqué${b.dataset.d === 'always' ? ' · les suivantes seront acceptées automatiquement' : ''}</span>`; save() };
+    (cur ? cur.querySelector('.tools') : $('#log')).append(d); scroll(); save();
+  }
   if (m.type === 'error'){
     setBusy(false); if (cur) cur.remove(); cur = null;
     const d = document.createElement('div'); d.className = 'err';
@@ -185,6 +243,24 @@ window.addEventListener('message', ({ data:m }) => {
     $('#log').append(d); scroll(); save();
   }
   if (m.type === 'clear'){ empty(); save() }
+  if (m.type === 'info'){ const d = document.createElement('div'); d.className = 'info'; d.textContent = m.text; (cur ? cur.querySelector('.tools') : $('#log')).append(d); scroll(); save() }
+  if (m.type === 'proposal'){
+    const d = document.createElement('div'); d.className = 'prop'; d.dataset.id = m.id;
+    d.innerHTML = `<b>Agora propose de modifier ${m.files.length} fichier${m.files.length > 1 ? 's' : ''}</b>` + m.files.map(f => `<div class="frow"><span class="fn" title="${esc(f.path)}">${esc(f.path)}</span>${f.isNew ? '<span class="new">nouveau</span>' : ''}<span class="st"><span class="p">+${f.add}</span> <span class="m">−${f.del}</span></span><button data-p="diff" data-path="${esc(f.path)}">Voir</button><button data-p="one" data-path="${esc(f.path)}">Appliquer</button></div>`).join('')
+      + `<div class="acts"><button class="pri" data-p="all">Tout appliquer</button><button data-p="skip">Ignorer</button></div>`;
+    $('#log').append(d); scroll(); save();
+  }
+  if (m.type === 'applied'){
+    let card = $('#log').querySelector(`.prop[data-id="${m.id}"]`);
+    if (!card){ card = document.createElement('div'); card.className = 'prop'; card.dataset.id = m.id; card.innerHTML = '<b>Modifications appliquées automatiquement</b><div class="acts"></div>'; $('#log').append(card) }
+    m.paths.forEach(pth => { const row = [...card.querySelectorAll('.frow')].find(r => r.querySelector('.fn').textContent === pth);
+      if (row){ row.querySelectorAll('button').forEach(b => b.remove()); row.insertAdjacentHTML('beforeend', '<span class="ok">✓ appliqué</span>') }
+      else card.querySelector('.acts').insertAdjacentHTML('beforebegin', `<div class="frow"><span class="fn">${esc(pth)}</span><span class="ok">✓ appliqué</span></div>`) });
+    if (m.errors?.length) card.insertAdjacentHTML('beforeend', `<div class="err">${m.errors.map(esc).join('<br>')}</div>`);
+    if (!card.querySelector('.frow button')){ card.classList.add('done'); card.querySelector('.acts').innerHTML = '<button data-undo>Annuler ces modifications</button>' }
+    card.querySelector('[data-undo]')?.addEventListener('click', () => vscode.postMessage({ type:'undo' }));
+    scroll(); save();
+  }
 });
 vscode.postMessage({ type:'ready' });
 </script>

@@ -4,6 +4,10 @@ Toutes les IA dans ton éditeur, avec **Agora Gratuit** qui marche sans clé ni 
 
 ## Ce que ça fait
 - **Chat Agora** dans la barre latérale (icône Agora à gauche).
+- **Agora lit et modifie les fichiers de ton projet** (dossier ouvert) : il lit ce dont il a besoin, puis propose ses modifications fichier par fichier.
+  - Mode **Demander** : tu vois les changements (+/−), tu cliques **Voir** pour le diff, puis **Appliquer** ou **Tout appliquer**.
+  - Mode **Auto** : les modifications sont appliquées directement.
+  - Dans les deux cas, **Annuler** remet tes fichiers comme avant.
 - **Clic droit sur du code sélectionné → Agora** : Expliquer, Corriger, Refactoriser, Commenter, Tests, ou poser ta question (`Ctrl+Alt+A`).
 - Le **fichier ouvert ou la sélection** est envoyé automatiquement comme contexte (désactivable d'un clic).
 - Sur chaque bloc de code de la réponse : **Copier**, **Insérer**, **Remplacer la sélection**, **Nouveau fichier**.
