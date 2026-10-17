@@ -6,7 +6,7 @@
 
 **Toutes les IA dans un seul chat. Gratuit, sans installation, sans compte obligatoire.**
 
-[Ouvrir Agora](https://ton-pseudo.github.io/agora/) · [Signaler un bug](../../issues/new?labels=bug) · [Proposer une idée](../../issues/new?labels=suggestion)
+[Ouvrir Agora](https://rvm-lua.github.io/Agora/) · [Signaler un bug](https://github.com/rvm-lua/Agora/issues/new?labels=bug) · [Proposer une idée](https://github.com/rvm-lua/Agora/issues/new?labels=suggestion)
 
 </div>
 
@@ -53,10 +53,10 @@ Tout se passe dans ton navigateur. Tes clés API et tes conversations restent su
 
 ## Mettre en ligne sur GitHub Pages
 
-1. Crée un dépôt **public**, par exemple `agora`.
+1. Crée un dépôt **public** (ici : `rvm-lua/Agora`).
 2. Envoie tous les fichiers de ce dossier à la **racine** du dépôt : **Add file**, puis **Upload files**, puis **Commit changes**.
 3. Va dans **Settings**, puis **Pages**. Dans **Source**, choisis **Deploy from a branch**, puis la branche `main` et le dossier `/ (root)`, et clique sur **Save**.
-4. Après 1 à 2 minutes, le site est en ligne sur `https://ton-pseudo.github.io/agora/`.
+4. Après 1 à 2 minutes, le site est en ligne sur `https://rvm-lua.github.io/Agora/`.
 
 **Mettre à jour** : envoie le nouveau `index.html` avec **Upload files**. Le fichier `CNAME` (domaine personnalisé) et les autres fichiers restent en place.
 
@@ -77,7 +77,7 @@ Cette étape empêche quelqu'un d'autre d'utiliser ton domaine sur GitHub.
 
 | Type  | Nom     | Valeur              |
 |-------|---------|---------------------|
-| CNAME | `agora` | `ton-pseudo.github.io` |
+| CNAME | `agora` | `rvm-lua.github.io` |
 
 **Pour le domaine principal** (`mondomaine.fr`) :
 
@@ -92,9 +92,9 @@ Cette étape empêche quelqu'un d'autre d'utiliser ton domaine sur GitHub.
 | AAAA | `@` | `2606:50c0:8002::153` *(facultatif)* |
 | AAAA | `@` | `2606:50c0:8003::153` *(facultatif)* |
 
-Ajoute aussi un CNAME `www` vers `ton-pseudo.github.io` pour que `www.mondomaine.fr` fonctionne.
+Ajoute aussi un CNAME `www` vers `rvm-lua.github.io` pour que `www.mondomaine.fr` fonctionne.
 
-> Le CNAME pointe vers `ton-pseudo.github.io` **sans** le nom du dépôt.
+> Le CNAME pointe vers `rvm-lua.github.io` **sans** le nom du dépôt.
 > Sur Cloudflare, mets ces enregistrements en **« DNS only »** (nuage gris) le temps que GitHub crée le certificat HTTPS.
 
 ### 3. Déclarer le domaine dans le dépôt
@@ -112,10 +112,10 @@ Trois lignes en haut de `index.html` :
 
 ```js
 // Comptes Agora (Supabase). Laisse vide pour désactiver les comptes.
-window.AGORA_CLOUD = { url: 'https://xxxx.supabase.co', anonKey: 'eyJhbGci…' };
+window.AGORA_CLOUD = { url: 'https://iiegjllgfqbjlegkafnl.supabase.co', anonKey: 'sb_publishable_…' };
 
 // Lien vers ce dépôt : bouton « Suivre sur GitHub » et suggestions en issues.
-window.AGORA_LINKS = { github: 'https://github.com/ton-pseudo/agora' };
+window.AGORA_LINKS = { github: 'https://github.com/rvm-lua/Agora' };
 
 // Version affichée dans les suggestions.
 window.AGORA_VERSION = '0.7.0';
@@ -124,11 +124,17 @@ window.AGORA_VERSION = '0.7.0';
 ### Activer les comptes Agora
 1. Crée un projet gratuit sur [supabase.com](https://supabase.com/dashboard).
 2. Ouvre **SQL Editor** et lance le script fourni dans Agora (**Réglages**, puis **Compte Agora**). Il crée la table des données synchronisées et la boîte à suggestions.
-3. Dans **Authentication**, puis **URL Configuration**, mets l'adresse de ton site.
+3. Dans **Authentication**, puis **URL Configuration**, mets `https://rvm-lua.github.io/Agora/` dans **Site URL** et **Redirect URLs**.
 4. Dans **Authentication**, puis **Providers**, active Google, Discord, GitHub et/ou Apple. Pour Apple, il faut un compte développeur payant.
-5. Copie l'**URL du projet** et la **clé anon** dans `AGORA_CLOUD`.
+5. Copie l'**URL du projet** et la **clé publique** (Publishable key) dans `AGORA_CLOUD`.
+6. Sur les projets Supabase récents, donne au site l'accès aux tables (déjà inclus dans le script du guide) :
 
-La clé « anon » est publique par conception. La sécurité vient des règles RLS du script, qui limitent chaque personne à ses propres données.
+```sql
+grant select, insert, update, delete on public.agora_state to authenticated;
+grant insert on public.agora_feedback to anon, authenticated;
+```
+
+La clé publique (Publishable ou « anon ») est faite pour être visible. La sécurité vient des règles RLS du script, qui limitent chaque personne à ses propres données.
 
 ## Confidentialité
 
@@ -162,7 +168,7 @@ La clé « anon » est publique par conception. La sécurité vient des règles 
 
 ## Contribuer
 
-Les idées et les bugs sont les bienvenus : utilise l'onglet **Suggestion** dans Agora, ou ouvre une [issue](../../issues).
+Les idées et les bugs sont les bienvenus : utilise l'onglet **Suggestion** dans Agora, ou ouvre une [issue](https://github.com/rvm-lua/Agora/issues).
 
 ## Crédits
 
