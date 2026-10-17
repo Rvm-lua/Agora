@@ -15,7 +15,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/3.1.6/purify.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/mermaid@10.9.1/dist/mermaid.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.117.2/dist/umd/supabase.js"></script>
 <link rel="stylesheet" id="fontLink" href="">
 <script>
 /* ============ CONFIG HÉBERGEUR (facultatif) ============
@@ -531,6 +531,39 @@ main.dropping::after{content:"Dépose tes fichiers ici";position:absolute;inset:
 .vrow.more{color:var(--accent);font-size:12.5px}
 .tier.abonnement{color:#8fa8ff;border-color:color-mix(in srgb,#8fa8ff 45%,transparent)}
 
+/* Fenêtre de connexion */
+.auth{background:var(--raise);border:1px solid var(--line);border-radius:18px;width:min(420px,100%);padding:26px 24px 22px;display:flex;flex-direction:column;gap:14px;max-height:92vh;overflow-y:auto;position:relative}
+.auth .x{position:absolute;top:12px;right:12px}
+.auth-top{display:flex;flex-direction:column;align-items:center;gap:8px;text-align:center}
+.auth-top h2{font:400 26px/1.15 var(--f-display);margin:0;letter-spacing:-.01em}
+.auth-top p{margin:0;color:var(--muted);font-size:13.5px}
+.auth .tabs2{display:grid;grid-template-columns:1fr 1fr;background:var(--panel);border-radius:10px;padding:3px}
+.auth .tabs2 button{padding:7px;border-radius:8px;font-size:13.5px;color:var(--muted)}
+.auth .tabs2 button.on{background:var(--raise);color:var(--fg);box-shadow:0 1px 3px rgba(0,0,0,.2)}
+.auth .sso{grid-template-columns:1fr}
+.auth .sso button{justify-content:center;padding:9px 14px}
+.auth-sep{display:flex;align-items:center;gap:10px;color:var(--faint);font-size:12px}
+.auth-sep::before,.auth-sep::after{content:"";flex:1;height:1px;background:var(--line)}
+.auth label{display:flex;flex-direction:column;gap:5px;font-size:13px;color:var(--muted)}
+.auth input[type=text],.auth input[type=email],.auth input[type=password]{background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:10px 12px;outline:none;font-size:14.5px;width:100%}
+.auth input:focus{border-color:var(--accent)}
+.pw{position:relative}
+.pw button{position:absolute;right:6px;top:50%;transform:translateY(-50%);font-size:12px;color:var(--faint);padding:4px 6px}
+.auth .go{padding:11px;font-size:15px;font-weight:500}
+.auth .link{color:var(--accent);font-size:13px;align-self:flex-start;padding:0}
+.auth .msg{font-size:13px;border-radius:10px;padding:9px 12px}
+.auth .msg.err{color:var(--danger);background:color-mix(in srgb,var(--danger) 10%,transparent)}
+.auth .msg.ok{color:var(--accent);background:color-mix(in srgb,var(--accent) 12%,transparent)}
+.auth small.legal{color:var(--faint);font-size:11.5px;text-align:center;line-height:1.45}
+.strength{height:4px;border-radius:4px;background:var(--line);overflow:hidden;margin-top:2px}
+.strength i{display:block;height:100%;width:0;transition:width .2s,background .2s}
+
+.logo{overflow:hidden}
+.logo .bimg{width:58%;height:58%;object-fit:contain;filter:brightness(0) invert(1);display:block}
+.logo .bimg.own{width:100%;height:100%;filter:none}
+.grp .logo{border-radius:5px;flex:none}
+.urow .logo{border-radius:6px;flex:none}
+
 .toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:var(--fg);color:var(--bg);padding:8px 16px;border-radius:10px;font-size:13.5px;z-index:60;max-width:calc(100vw - 32px)}
 
 @media (max-width:760px){
@@ -578,7 +611,7 @@ main.dropping::after{content:"Dépose tes fichiers ici";position:absolute;inset:
   <symbol id="i-panel" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M14 4v16"/></symbol>
   <symbol id="i-edit" viewBox="0 0 24 24"><path d="M12 20h9M16.5 3.5a2.1 2.1 0 1 1 3 3L7 19l-4 1 1-4z"/></symbol>
   <symbol id="i-expand" viewBox="0 0 24 24"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></symbol>
-  <symbol id="i-gh" viewBox="0 0 24 24"><path d="M9 19c-4.3 1.4-4.3-2.5-6-3m12 5v-3.5c0-1 .1-1.4-.5-2 2.8-.3 5.5-1.4 5.5-6a4.6 4.6 0 0 0-1.3-3.2 4.2 4.2 0 0 0-.1-3.2s-1.1-.3-3.5 1.3a12.3 12.3 0 0 0-6.2 0C6.5 2.8 5.4 3.1 5.4 3.1a4.2 4.2 0 0 0-.1 3.2A4.6 4.6 0 0 0 4 9.5c0 4.6 2.7 5.7 5.5 6-.6.6-.6 1.2-.5 2V21"/></symbol>
+  <symbol id="i-gh" viewBox="0 0 24 24"><circle cx="6" cy="5" r="2.5"/><circle cx="6" cy="19" r="2.5"/><circle cx="18" cy="8" r="2.5"/><path d="M6 7.5v9M18 10.5c0 4-6 3-11 6"/></symbol>
   <symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></symbol>
   <symbol id="i-cloud" viewBox="0 0 24 24"><path d="M17.5 19H9a7 7 0 1 1 6.7-9h1.8a4.5 4.5 0 1 1 0 9z"/></symbol>
   <symbol id="i-clip" viewBox="0 0 24 24"><path d="m21 11-8.6 8.6a5.5 5.5 0 0 1-7.8-7.8l8.6-8.6a3.7 3.7 0 0 1 5.2 5.2l-8.6 8.6a1.8 1.8 0 0 1-2.6-2.6L15 6.6"/></symbol>
@@ -610,7 +643,7 @@ main.dropping::after{content:"Dépose tes fichiers ici";position:absolute;inset:
   <div id="convList"></div>
   <button class="side-btn" data-open="suggestion" style="margin-top:6px"><svg class="icon"><use href="#i-chat"/></svg>Envoyer une suggestion</button>
   <button class="side-btn" data-open="design"><svg class="icon"><use href="#i-sliders"/></svg>Design &amp; réglages</button>
-  <button class="acct" id="acctBtn" data-open="compte"><span class="avatar" id="acctAv">?</span><span class="who2"><b id="acctName">Créer un compte</b><small id="acctSub">Synchro sur tes appareils</small></span><svg class="icon" style="color:var(--faint)"><use href="#i-gear"/></svg></button>
+  <button class="acct" id="acctBtn"><span class="avatar" id="acctAv">?</span><span class="who2"><b id="acctName">Créer un compte</b><small id="acctSub">Synchro sur tes appareils</small></span><svg class="icon" style="color:var(--faint)"><use href="#i-gear"/></svg></button>
 </aside>
 
 <main>
@@ -667,7 +700,7 @@ main.dropping::after{content:"Dépose tes fichiers ici";position:absolute;inset:
    FOURNISSEURS
    ===================================================================== */
 const PROVIDERS = [
-  { id:'anthropic', name:'Claude', org:'Anthropic', kind:'anthropic', color:'#d97757', letter:'C', tier:'payant',
+  { id:'anthropic', icon:'claude', name:'Claude', org:'Anthropic', kind:'anthropic', color:'#d97757', letter:'C', tier:'payant',
     keyUrl:'https://console.anthropic.com/settings/keys', prefix:/^sk-ant-/,
     chat:'https://api.anthropic.com/v1/messages', models:'https://api.anthropic.com/v1/models',
     note:'API payante à l\'usage. L\'abonnement Claude.ai ne donne pas accès à l\'API.',
@@ -678,7 +711,7 @@ const PROVIDERS = [
     filter:id => /^(gpt|o\d|chatgpt)/.test(id) && !/audio|realtime|transcribe|tts|search|image|instruct|embedding/.test(id),
     note:'API payante, séparée de l\'abonnement ChatGPT Plus.',
     seed:['gpt-4o-mini','gpt-4.1-mini','gpt-4.1','o4-mini'] },
-  { id:'gemini', name:'Gemini', org:'Google', color:'#4b7bec', letter:'G', tier:'gratuit', usage:true,
+  { id:'gemini', icon:'googlegemini', name:'Gemini', org:'Google', color:'#4b7bec', letter:'G', tier:'gratuit', usage:true,
     keyUrl:'https://aistudio.google.com/apikey', prefix:/^AIza[0-9A-Za-z_-]{30,}$/,
     chat:'https://generativelanguage.googleapis.com/v1beta/openai/chat/completions', models:'https://generativelanguage.googleapis.com/v1beta/openai/models',
     filter:id => /gemini|gemma/.test(id) && !/embed|image|tts|aqa|live/.test(id),
@@ -690,13 +723,13 @@ const PROVIDERS = [
     filter:id => !/image|imagine/.test(id),
     note:'API payante. xAI offre parfois des crédits de départ.',
     seed:['grok-4','grok-3-mini'] },
-  { id:'mistral', name:'Mistral', org:'Mistral AI', color:'#f06a1d', letter:'M', tier:'gratuit',
+  { id:'mistral', icon:'mistralai', name:'Mistral', org:'Mistral AI', color:'#f06a1d', letter:'M', tier:'gratuit',
     keyUrl:'https://console.mistral.ai/api-keys', prefix:null,
     chat:'https://api.mistral.ai/v1/chat/completions', models:'https://api.mistral.ai/v1/models',
     filter:id => !/embed|moderation|ocr/.test(id),
     note:'Plan gratuit « Experiment ». Si ton navigateur bloque l\'appel, utilise Mistral via OpenRouter.',
     seed:['mistral-small-latest','codestral-latest','mistral-large-latest'] },
-  { id:'openrouter', name:'OpenRouter', org:'Tous les modèles', color:'#6366f1', letter:'R', tier:'gratuit', usage:true, oauth:true,
+  { id:'openrouter', icon:'openrouter', name:'OpenRouter', org:'Tous les modèles', color:'#6366f1', letter:'R', tier:'gratuit', usage:true, oauth:true,
     keyUrl:'https://openrouter.ai/keys', prefix:/^sk-or-/,
     chat:'https://openrouter.ai/api/v1/chat/completions', models:'https://openrouter.ai/api/v1/models',
     freeFilter:m => (m.id||'').endsWith(':free'),
@@ -718,24 +751,28 @@ const PROVIDERS = [
     chat:'https://text.pollinations.ai/openai', models:'https://text.pollinations.ai/models',
     note:'Déjà actif, rien à faire. Des IA gratuites pour commencer tout de suite. Un peu plus lent que les autres.',
     seed:['openai','openai-fast','mistral','qwen-coder','deepseek-reasoning'] },
-  { id:'ollama', name:'Ollama', org:'Local', color:'#6c6e75', letter:'O', tier:'gratuit', needsKey:false, local:true,
+  { id:'ollama', icon:'ollama', name:'Ollama', org:'Local', color:'#6c6e75', letter:'O', tier:'gratuit', needsKey:false, local:true,
     keyUrl:'https://ollama.com/download',
     chat:'http://localhost:11434/v1/chat/completions', models:'http://localhost:11434/v1/models',
     note:'Tes modèles sur ton PC. Lance Ollama avec OLLAMA_ORIGINS="*".',
     seed:[] },
 ];
 PROVIDERS.push(
-  { id:'copilot', name:'GitHub Copilot', org:'Agent de code · GitHub', kind:'agent', color:'#1f2328', letter:'C', tier:'abonnement', needsKey:false,
+  { id:'copilot', icon:'githubcopilot', name:'GitHub Copilot', org:'Agent de code · GitHub', kind:'agent', color:'#1f2328', letter:'C', tier:'abonnement', needsKey:false,
     keyUrl:'https://github.com/features/copilot/plans',
     note:'Utilise ton compte GitHub lié (abonnement Copilot requis). Tu donnes une tâche, Copilot travaille seul sur ton dépôt et ouvre une pull request.',
     seed:['auto'] },
-  { id:'cursor', name:'Cursor', org:'Agent de code · Cursor', kind:'agent', color:'#0b0b0b', letter:'›', tier:'abonnement',
+  { id:'cursor', icon:'cursor', name:'Cursor', org:'Agent de code · Cursor', kind:'agent', color:'#0b0b0b', letter:'›', tier:'abonnement',
     keyUrl:'https://cursor.com/dashboard', prefix:/^(key_|crsr_)/,
     note:'Clé API depuis ton tableau de bord Cursor (abonnement requis). L\'agent Cursor travaille dans le cloud sur ton dépôt GitHub et ouvre une pull request.',
     seed:['auto'] },
 );
 PROVIDERS.forEach(p => { if (p.needsKey === undefined) p.needsKey = true });
 const isAgent = p => p?.kind === 'agent';
+/* Logos officiels via la bibliothèque Simple Icons (CC0) ; lettre si la marque n'y figure pas */
+const SI = 'https://cdn.jsdelivr.net/npm/simple-icons@16.33.0/icons/';
+const brandImg = (slug, letter = '') => `<img class="bimg" src="${SI}${slug}.svg" alt="" data-l="${esc(letter)}" onerror="this.replaceWith(document.createTextNode(this.dataset.l))">`;
+const logoTile = (p, size) => `<span class="logo" style="background:${p.color}${size ? `;width:${size}px;height:${size}px;font-size:${Math.round(size / 2)}px` : ''}">${p.icon ? brandImg(p.icon, p.letter) : p.id === 'pollinations' ? '<img class="bimg own" src="icon.svg" alt="" onerror="this.replaceWith(document.createTextNode(\'A\'))">' : esc(p.letter)}</span>`;
 
 const CATS = ['Tous','Général','Code','Raisonnement','Rapide','Vision'];
 function categorize(id){
@@ -2267,7 +2304,7 @@ function openCmpPop(){
   popKind = 'cmp';
   const opts = cmpOptions();
   $('#popHost').innerHTML = `<div class="pop"><div class="pop-sec" style="padding-bottom:4px;display:flex;justify-content:space-between;align-items:center"><span>Comparer 2 ou 3 IA côte à côte</span>${switchHtml('cmpOn', compareOn)}</div><div class="pop-body">
-    ${opts.length < 2 ? '<div style="padding:14px;color:var(--muted);font-size:13.5px">Lie au moins une IA de plus dans « Comptes IA » pour comparer.</div>' : opts.map(o => `<label class="model" style="cursor:pointer"><input type="checkbox" data-k="${esc(o.key)}" ${compareSel.includes(o.key) ? 'checked' : ''}><span class="logo" style="background:${o.p.color};width:22px;height:22px;font-size:11px">${o.p.letter}</span><span class="nm" style="font-family:var(--f-body);font-size:13.5px">${esc(o.label)}</span><span class="tier ${o.p.tier}">${o.p.tier}</span></label>`).join('')}
+    ${opts.length < 2 ? '<div style="padding:14px;color:var(--muted);font-size:13.5px">Lie au moins une IA de plus dans « Comptes IA » pour comparer.</div>' : opts.map(o => `<label class="model" style="cursor:pointer"><input type="checkbox" data-k="${esc(o.key)}" ${compareSel.includes(o.key) ? 'checked' : ''}>${logoTile(o.p, 22)}<span class="nm" style="font-family:var(--f-body);font-size:13.5px">${esc(o.label)}</span><span class="tier ${o.p.tier}">${o.p.tier}</span></label>`).join('')}
     <div style="padding:8px 10px;color:var(--faint);font-size:12px">Chaque IA répond en même temps. Tu gardes ensuite la meilleure réponse pour continuer.</div></div></div>`;
   $('#cmpOn').onchange = e => { compareOn = e.target.checked; if (compareOn && compareSel.length < 2) compareSel = opts.slice(0, 2).map(o => o.key); store.set('compareOn', compareOn); store.set('compareSel', compareSel); openCmpPop(); renderTags() };
   $('#popHost').querySelectorAll('[data-k]').forEach(cb => cb.onchange = () => {
@@ -2472,6 +2509,7 @@ $('#fileIn').onchange = e => { addFiles([...e.target.files]); e.target.value = '
 $('#logGo').onclick = () => { input.value = '/logs ' + input.value.replace(/^\/\S*\s*/, ''); autosize(); checkLogs(); updateComposer(); input.focus() };
 $('#cmpBtn').onclick = () => popKind === 'cmp' ? closePop() : openCmpPop();
 $('#agentBtn').onclick = e => { if (e.target.closest('.x')){ const c = activeConv(); if (c) c.agent = undefined, saveConvs(); nextAgent = null; renderTags(); renderModelLbl(); if (!c?.messages.length) renderMessages(); return } openSettings('assistants') };
+$('#acctBtn').onclick = () => { if (sbUser) openSettings('compte'); else openAuth('signup'); if (innerWidth < 760) $('#side').classList.add('closed') };
 $('#appsBtn').onclick = () => { openApps(); if (innerWidth < 760) $('#side').classList.add('closed') };
 (() => {
   const m = document.querySelector('main'); let depth = 0;
@@ -2561,8 +2599,8 @@ function openSimplePop(){
   const agents = PROVIDERS.filter(p => isAgent(p) && hasAccess(p));
   $('#popHost').innerHTML = `<div class="pop"><div class="pop-sec" style="padding-bottom:4px">Choisis ce dont tu as besoin</div><div class="pop-body">
     ${SMART.map(s => `<button class="model smart${current.provider === 'smart' && current.model === s.id ? ' sel' : ''}" data-s="${s.id}"><span class="sic"><svg class="icon"><use href="#${s.icon}"/></svg></span><span style="flex:1;min-width:0"><b>${s.name}</b><small style="display:block">${esc(s.desc)}</small></span><span class="cat" title="IA qui répondra">${esc(who(s))}</span></button>`).join('')}
-    ${linked.length ? `<div class="pop-sec">Ou une IA précise</div>${linked.map(p => `<div class="vgroup${current.provider === p.id ? ' open' : ''}" data-g="${p.id}"><button class="model${current.provider === p.id ? ' sel' : ''}" data-p="${p.id}"><span class="logo" style="background:${p.color};width:22px;height:22px;font-size:11px">${p.letter}</span><span class="nm" style="font-family:var(--f-body);font-size:13.5px">${esc(p.name)}${current.provider === p.id ? ` <small style="color:var(--accent);font-family:var(--f-mono)">${esc(prettyModel(p.id, current.model))}</small>` : ''}</span><span class="tier ${p.tier}">${p.tier}</span><svg class="icon chev"><use href="#i-down"/></svg></button><div class="vlist"></div></div>`).join('')}` : ''}
-    ${agents.length ? `<div class="pop-sec">Agents de code (travaillent sur ton dépôt)</div>${agents.map(p => `<button class="model${current.provider === p.id ? ' sel' : ''}" data-ag2="${p.id}"><span class="logo" style="background:${p.color};width:22px;height:22px;font-size:11px">${p.letter}</span><span style="flex:1;min-width:0"><b style="font-size:13.5px;font-weight:500">${esc(p.name)}</b><small style="display:block;color:var(--muted);font-size:12px;white-space:normal">Confie une tâche, il ouvre une pull request</small></span><span class="tier ${p.tier}">${p.tier}</span></button>`).join('')}` : ''}
+    ${linked.length ? `<div class="pop-sec">Ou une IA précise</div>${linked.map(p => `<div class="vgroup${current.provider === p.id ? ' open' : ''}" data-g="${p.id}"><button class="model${current.provider === p.id ? ' sel' : ''}" data-p="${p.id}">${logoTile(p, 22)}<span class="nm" style="font-family:var(--f-body);font-size:13.5px">${esc(p.name)}${current.provider === p.id ? ` <small style="color:var(--accent);font-family:var(--f-mono)">${esc(prettyModel(p.id, current.model))}</small>` : ''}</span><span class="tier ${p.tier}">${p.tier}</span><svg class="icon chev"><use href="#i-down"/></svg></button><div class="vlist"></div></div>`).join('')}` : ''}
+    ${agents.length ? `<div class="pop-sec">Agents de code (travaillent sur ton dépôt)</div>${agents.map(p => `<button class="model${current.provider === p.id ? ' sel' : ''}" data-ag2="${p.id}">${logoTile(p, 22)}<span style="flex:1;min-width:0"><b style="font-size:13.5px;font-weight:500">${esc(p.name)}</b><small style="display:block;color:var(--muted);font-size:12px;white-space:normal">Confie une tâche, il ouvre une pull request</small></span><span class="tier ${p.tier}">${p.tier}</span></button>`).join('')}` : ''}
     <div style="display:flex;gap:6px;padding:10px 8px 6px;flex-wrap:wrap"><button class="btn sm" id="spLink"><svg class="icon" style="width:14px;height:14px"><use href="#i-link"/></svg>Lier plus d'IA</button><button class="btn sm ghost" id="spAll">Voir tous les modèles</button></div>
   </div></div>`;
   $('#popHost').querySelectorAll('[data-s]').forEach(b => b.onclick = () => { current = { provider:'smart', model:b.dataset.s }; store.set('current', current); renderModelLbl(); closePop() });
@@ -2595,7 +2633,7 @@ function drawModels(){
     const list = modelsOf(p).filter(id => (catSel === 'Tous' || categorize(id) === catSel) && (!q || id.toLowerCase().includes(q) || p.name.toLowerCase().includes(q)));
     if (!list.length) continue;
     const g = document.createElement('div'); g.className = 'grp';
-    g.innerHTML = `<span class="dot" style="background:${p.color}"></span><span>${esc(p.name)}</span><span class="tier ${p.tier}">${p.tier}</span>${hasAccess(p) ? '' : '<span class="warn">non lié</span>'}`;
+    g.innerHTML = `${logoTile(p, 18)}<span>${esc(p.name)}</span><span class="tier ${p.tier}">${p.tier}</span>${hasAccess(p) ? '' : '<span class="warn">non lié</span>'}`;
     box.append(g);
     for (const id of list.slice(0, 80)){
       count++;
@@ -2651,7 +2689,7 @@ function togglePlugin(id){
    ===================================================================== */
 const AGORA_VERSION = window.AGORA_VERSION || 'dev';
 var SYNC_KEYS = ['keys','convs','projects','activeProject','settings','plugins','modes','codesOff','usage','design','current','permMode','coding','ghUser','agents','myCodes','compareOn','compareSel','appsInterest'];
-const SSO = [ ['google','Google','#4285f4','G'], ['discord','Discord','#5865f2','D'], ['github','GitHub','#24292f','G'], ['apple','Apple','#000000',''] ];
+const SSO = [ ['google','Google','#4285f4','G'], ['discord','Discord','#5865f2','D'], ['github','GitHub','#24292f','G'], ['apple','Apple','#000000','A'] ];
 const SETUP_SQL = `create table if not exists public.agora_state (
   user_id uuid primary key references auth.users on delete cascade,
   data jsonb not null,
@@ -2662,6 +2700,7 @@ create policy "agora_select" on public.agora_state for select using (auth.uid() 
 create policy "agora_insert" on public.agora_state for insert with check (auth.uid() = user_id);
 create policy "agora_update" on public.agora_state for update using (auth.uid() = user_id);
 create policy "agora_delete" on public.agora_state for delete using (auth.uid() = user_id);
+grant select, insert, update, delete on public.agora_state to authenticated;
 
 -- Boîte à suggestions : tout le monde peut envoyer, personne ne peut lire depuis le site
 create table if not exists public.agora_feedback (
@@ -2671,7 +2710,14 @@ create table if not exists public.agora_feedback (
   created_at timestamptz not null default now()
 );
 alter table public.agora_feedback enable row level security;
-create policy "feedback_insert" on public.agora_feedback for insert to anon, authenticated with check (true);`;
+create policy "feedback_insert" on public.agora_feedback for insert to anon, authenticated with check (true);
+grant insert on public.agora_feedback to anon, authenticated;`;
+const FIX_SQL = `-- Donne au site le droit d'utiliser les tables (obligatoire sur les projets Supabase récents)
+grant select, insert, update, delete on public.agora_state to authenticated;
+grant insert on public.agora_feedback to anon, authenticated;`;
+const isPermErr = e => e && (e.code === '42501' || /permission denied|not allowed|row-level security/i.test(e.message || ''));
+function fixBox(){ return `<div class="msg err" style="display:flex;flex-direction:column;gap:8px;border-radius:10px;padding:10px 12px;color:var(--danger);background:color-mix(in srgb,var(--danger) 10%,transparent)"><b style="font-weight:600">Supabase refuse l'accès aux tables.</b><span style="color:var(--fg);font-size:13px">Les projets Supabase récents demandent une autorisation explicite. Ouvre Supabase → SQL Editor → New query, colle ceci et clique Run :</span><div class="codebox" style="max-height:none;color:var(--fg);padding-right:80px">${esc(FIX_SQL)}<button class="btn sm" data-fixcopy>Copier</button></div></div>` }
+document.addEventListener('click', e => { if (e.target.closest('[data-fixcopy]')) copy(FIX_SQL, e.target.closest('[data-fixcopy]')) });
 let sb = null, sbUser = null, syncTimer = 0, syncState = 'off', syncMsg = '';
 const cloudCfg = () => { const c = window.AGORA_CLOUD?.url ? window.AGORA_CLOUD : store.get('cloudCfg', null); return c?.url && c?.anonKey ? c : null };
 const redirectUrl = () => location.origin + location.pathname;
@@ -2681,6 +2727,8 @@ function initCloud(){
     sb = supabase.createClient(c.url, c.anonKey, { auth:{ persistSession:true, detectSessionInUrl:true, flowType:'implicit', storageKey:'agora-auth' } });
     sb.auth.onAuthStateChange((ev, session) => {
       const was = sbUser?.id; sbUser = session?.user || null; renderAcct();
+      if (ev === 'PASSWORD_RECOVERY') setTimeout(() => openAuth('newpass'), 100);
+      if (ev === 'SIGNED_IN' && !was && sbUser) toast('Connecté : ' + (sbUser.user_metadata?.full_name || sbUser.email));
       if (session?.provider_token && store.get('ghPending', false)){
         store.set('ghPending', false);
         linkGitHub(session.provider_token).then(u => toast('GitHub lié : ' + u.login)).catch(e => toast('GitHub : ' + e.message));
@@ -2719,7 +2767,7 @@ async function pushCloud(){
     const { error } = await sb.from('agora_state').upsert({ user_id: sbUser.id, data, updated_at: now });
     if (error) throw error;
     store.set('lastSync', now); setSync('ok');
-  }catch(e){ setSync('err', e.message || String(e)) }
+  }catch(e){ setSync('err', isPermErr(e) ? 'Permissions manquantes sur la table : lance le script de correction ci-dessous.' : (e.message || String(e))) }
 }
 function mergeState(local, remote){
   const fresh = !(local.convs?.length) && !Object.keys(local.keys || {}).length;
@@ -2742,7 +2790,7 @@ async function pullCloud(){
   if (!sb || !sbUser) return;
   setSync('sync');
   const { data: row, error } = await sb.from('agora_state').select('data,updated_at').eq('user_id', sbUser.id).maybeSingle();
-  if (error){ setSync('err', error.message.includes('agora_state') ? 'Table agora_state introuvable : lance le script SQL du guide.' : error.message); return }
+  if (error){ setSync('err', isPermErr(error) ? 'Permissions manquantes sur la table : lance le script de correction ci-dessous.' : /agora_state/.test(error.message) ? 'Table agora_state introuvable : lance le script SQL du guide.' : error.message); return }
   if (!row){ return pushCloud() }
   let data = row.data;
   if (data?.enc){
@@ -2764,6 +2812,111 @@ async function signIn(provider, extra = {}){
   const { error } = await sb.auth.signInWithOAuth({ provider, options:{ redirectTo: redirectUrl(), ...extra } });
   if (error) toast(error.message);
 }
+/* ---------- Fenêtre « Créer un compte / Se connecter » ---------- */
+let authProviders = null;
+async function loadAuthProviders(){
+  const c = cloudCfg(); if (!c) return null;
+  if (authProviders) return authProviders;
+  try{ const r = await fetch(c.url + '/auth/v1/settings', { headers:{ apikey: c.anonKey } }); const j = await r.json(); authProviders = j.external || null }catch{ authProviders = null }
+  return authProviders;
+}
+const AUTH_ERR = [
+  [/invalid login credentials/i, 'E-mail ou mot de passe incorrect.'],
+  [/already registered|already exists/i, 'Un compte existe déjà avec cet e-mail. Connecte-toi plutôt.'],
+  [/email not confirmed/i, 'Confirme d\'abord ton e-mail : clique sur le lien reçu (pense aux spams).'],
+  [/password should be at least|weak password/i, 'Mot de passe trop court ou trop simple (8 caractères minimum).'],
+  [/rate limit|too many|security purposes/i, 'Trop de tentatives. Réessaie dans quelques minutes.'],
+  [/invalid email|unable to validate email/i, 'Adresse e-mail invalide.'],
+  [/signups not allowed|signup is disabled/i, 'Les inscriptions sont fermées sur ce site.'],
+  [/provider is not enabled|unsupported provider/i, 'Cette méthode de connexion n\'est pas encore activée sur ce site.'],
+  [/failed to fetch|network/i, 'Connexion au serveur impossible. Vérifie ta connexion internet.'],
+];
+const authErr = e => { const m = e?.message || String(e); return (AUTH_ERR.find(([re]) => re.test(m)) || [, m])[1] };
+const pwScore = p => [p.length >= 8, p.length >= 12, /[A-Z]/.test(p) && /[a-z]/.test(p), /\d/.test(p), /[^A-Za-z0-9]/.test(p)].filter(Boolean).length;
+function openAuth(mode = 'signup'){
+  closePop(); $('.scrim')?.remove();
+  const s2 = document.createElement('div'); s2.className = 'scrim';
+  s2.innerHTML = '<div class="auth" role="dialog" aria-label="Compte Agora"></div>';
+  document.body.append(s2);
+  s2.onclick = e => { if (e.target === s2 || e.target.closest('[data-close]')) s2.remove() };
+  renderAuth(s2.querySelector('.auth'), mode);
+}
+async function renderAuth(box, mode){
+  const cfg = cloudCfg();
+  const top = (t, p) => `<button class="iconbtn x" data-close title="Fermer"><svg class="icon"><use href="#i-x"/></svg></button><div class="auth-top"><span class="orbslot2"></span><h2>${t}</h2><p>${p}</p></div>`;
+  const orb = () => { const o = makeOrb(mode === 'signup' ? 'connecting' : 'breathing', 64, 56); box.querySelector('.orbslot2')?.append(o.c) };
+  if (!cfg){
+    box.innerHTML = top('Comptes bientôt disponibles', 'Les comptes Agora ne sont pas encore activés sur ce site. Tu peux déjà tout utiliser sans compte : tes données restent dans ce navigateur.')
+      + '<button class="btn prim go" data-close>Continuer sans compte</button><button class="link" id="auOwner">Je suis le propriétaire du site : activer les comptes</button>';
+    orb(); box.querySelector('#auOwner').onclick = () => openSettings('compte'); return;
+  }
+  if (!sb){
+    box.innerHTML = top('Ouvre le site en ligne', 'La connexion ne fonctionne que sur le site hébergé (adresse en https), pas en ouvrant le fichier sur ton ordinateur.') + '<button class="btn prim go" data-close>Compris</button>';
+    orb(); return;
+  }
+  if (mode === 'newpass'){
+    box.innerHTML = top('Nouveau mot de passe', 'Choisis ton nouveau mot de passe.') + `<label>Nouveau mot de passe<div class="pw"><input type="password" id="auNp" autocomplete="new-password" minlength="8"><button type="button" data-eye>Voir</button></div></label><div class="msg" hidden></div><button class="btn prim go" id="auGo">Enregistrer</button>`;
+    orb();
+    box.querySelector('[data-eye]').onclick = e => { const i = box.querySelector('#auNp'); i.type = i.type === 'password' ? 'text' : 'password'; e.target.textContent = i.type === 'password' ? 'Voir' : 'Cacher' };
+    box.querySelector('#auGo').onclick = async () => { const msg = box.querySelector('.msg'); const { error } = await sb.auth.updateUser({ password: box.querySelector('#auNp').value });
+      msg.hidden = false; msg.className = 'msg ' + (error ? 'err' : 'ok'); msg.textContent = error ? authErr(error) : 'Mot de passe changé. Tu es connecté.'; if (!error) setTimeout(() => box.closest('.scrim')?.remove(), 1200) };
+    return;
+  }
+  const isUp = mode === 'signup', isReset = mode === 'reset';
+  const prov = await loadAuthProviders();
+  const sso = SSO.filter(([id]) => !prov || prov[id]);
+  const emailOn = !prov || prov.email !== false;
+  box.innerHTML = top(isReset ? 'Mot de passe oublié' : isUp ? 'Crée ton compte Agora' : 'Content de te revoir',
+      isReset ? 'Entre ton e-mail, on t\'envoie un lien pour choisir un nouveau mot de passe.' : isUp ? 'Retrouve tes IA, tes conversations et tes projets sur tous tes appareils.' : 'Connecte-toi pour retrouver toutes tes données.')
+    + (isReset ? '' : `<div class="tabs2"><button data-m="signup" class="${isUp ? 'on' : ''}">Créer un compte</button><button data-m="login" class="${!isUp ? 'on' : ''}">Se connecter</button></div>`)
+    + (!isReset && sso.length ? `<div class="sso">${sso.map(([id, n, c, l]) => `<button data-sso="${id}"><span class="logo" style="background:${c}">${brandImg(id, l)}</span>Continuer avec ${n}</button>`).join('')}</div>${emailOn ? '<div class="auth-sep">ou avec ton e-mail</div>' : ''}` : '')
+    + (emailOn ? `<form id="auForm" novalidate style="display:flex;flex-direction:column;gap:12px">
+        ${isUp ? '<label>Pseudo<input type="text" id="auName" autocomplete="nickname" maxlength="32" placeholder="Comment on t\'appelle ?"></label>' : ''}
+        <label>E-mail<input type="email" id="auMail" autocomplete="email" placeholder="toi@exemple.com" value="${esc(store.get('lastEmail', ''))}"></label>
+        ${isReset ? '' : `<label>Mot de passe<div class="pw"><input type="password" id="auPw" autocomplete="${isUp ? 'new-password' : 'current-password'}" placeholder="${isUp ? '8 caractères minimum' : ''}"><button type="button" data-eye>Voir</button></div>${isUp ? '<div class="strength"><i></i></div>' : ''}</label>`}
+        ${!isUp && !isReset ? '<button type="button" class="link" data-m="reset">Mot de passe oublié ?</button>' : ''}
+        <div class="msg" hidden></div>
+        <button class="btn prim go" type="submit">${isReset ? 'Envoyer le lien' : isUp ? 'Créer mon compte' : 'Se connecter'}</button>
+        ${isReset ? '<button type="button" class="link" data-m="login">← Retour à la connexion</button>' : ''}
+      </form>` : '<div class="msg err">La connexion par e-mail est désactivée sur ce site.</div>')
+    + (isUp ? '<small class="legal">Sans compte, Agora marche aussi : tes données restent alors dans ce navigateur. Avec un compte, elles sont synchronisées et tu peux les chiffrer avec une phrase secrète.</small>' : '');
+  orb();
+  box.querySelectorAll('[data-m]').forEach(b => b.onclick = () => renderAuth(box, b.dataset.m));
+  box.querySelectorAll('[data-sso]').forEach(b => b.onclick = () => signIn(b.dataset.sso));
+  box.querySelector('[data-eye]')?.addEventListener('click', e => { const i = box.querySelector('#auPw'); i.type = i.type === 'password' ? 'text' : 'password'; e.target.textContent = i.type === 'password' ? 'Voir' : 'Cacher' });
+  const pw = box.querySelector('#auPw'), bar = box.querySelector('.strength i');
+  if (pw && bar) pw.oninput = () => { const sc = pwScore(pw.value); bar.style.width = (sc * 20) + '%'; bar.style.background = sc < 2 ? 'var(--danger)' : sc < 4 ? 'var(--warn)' : 'var(--accent)' };
+  const form = box.querySelector('#auForm'); if (!form) return;
+  form.querySelector(isUp ? '#auName' : '#auMail').focus();
+  form.onsubmit = async e => {
+    e.preventDefault();
+    const msg = form.querySelector('.msg'), go = form.querySelector('.go');
+    const show = (t, ok) => { msg.hidden = false; msg.className = 'msg ' + (ok ? 'ok' : 'err'); msg.textContent = t };
+    const email = form.querySelector('#auMail').value.trim(), pass = form.querySelector('#auPw')?.value || '';
+    if (!/^\S+@\S+\.\S+$/.test(email)) return show('Adresse e-mail invalide.');
+    if (!isReset && pass.length < (isUp ? 8 : 1)) return show(isUp ? 'Le mot de passe doit faire au moins 8 caractères.' : 'Entre ton mot de passe.');
+    store.set('lastEmail', email);
+    go.disabled = true; const old = go.textContent; go.textContent = '…';
+    try{
+      if (isReset){
+        const { error } = await sb.auth.resetPasswordForEmail(email, { redirectTo: redirectUrl() }); if (error) throw error;
+        show('Si un compte existe avec cet e-mail, tu vas recevoir un lien. Pense à regarder dans les spams.', true);
+      } else if (isUp){
+        const name = form.querySelector('#auName').value.trim();
+        const { data, error } = await sb.auth.signUp({ email, password: pass, options:{ data:{ full_name: name || email.split('@')[0] }, emailRedirectTo: redirectUrl() } });
+        if (error) throw error;
+        if (data.user && data.user.identities && !data.user.identities.length) return show('Un compte existe déjà avec cet e-mail. Connecte-toi plutôt.');
+        if (data.session){ show('Compte créé, bienvenue !', true); setTimeout(() => box.closest('.scrim')?.remove(), 900) }
+        else show(`Presque fini : on a envoyé un lien de confirmation à ${email}. Clique dessus pour activer ton compte (regarde aussi dans les spams).`, true);
+      } else {
+        const { error } = await sb.auth.signInWithPassword({ email, password: pass }); if (error) throw error;
+        show('Connecté.', true); setTimeout(() => box.closest('.scrim')?.remove(), 600);
+      }
+    }catch(err){ show(authErr(err)) }
+    go.disabled = false; go.textContent = old;
+  };
+}
+
 function renderAcct(){
   const av = $('#acctAv'), nm = $('#acctName'), sub = $('#acctSub'); if (!av) return;
   if (sbUser){
@@ -2811,7 +2964,7 @@ function tabComptes(body, focusId){
     const linked = hasAccess(p) && (p.needsKey || p.id === 'pollinations');
     const tok = a.per[p.id] ? a.per[p.id].in + a.per[p.id].out : 0;
     const card = document.createElement('div'); card.className = 'acc' + (linked ? ' linked' : ''); card.dataset.p = p.id;
-    card.innerHTML = `<div class="acc-top"><span class="logo" style="background:${p.color}">${p.letter}</span><div><b>${esc(p.name)}</b><small>${esc(p.org)}</small></div><span class="tier ${p.tier}">${p.tier}</span></div>
+    card.innerHTML = `<div class="acc-top">${logoTile(p)}<div><b>${esc(p.name)}</b><small>${esc(p.org)}</small></div><span class="tier ${p.tier}">${p.tier}</span></div>
       <p>${esc(p.note)}</p>
       ${linked ? `<div class="linked-info num">● ${p.needsKey ? 'Lié' : 'Actif'}${isAgent(p) ? ' · agent de code' : ' · ' + modelsOf(p).length + ' modèles'}${tok ? ' · ' + fmt(tok) + ' tokens' : ''}</div>` : p.id === 'copilot' && keys.github ? '<div class="linked-info">● Prêt via ton GitHub</div>' : ''}
       <div class="row act"></div><div class="row paste" hidden><input type="password" placeholder="Colle ta clé ${esc(p.name)}" autocomplete="off"><button class="btn sm" data-x="clip">Coller</button><button class="btn sm prim" data-x="ok">OK</button></div>`;
@@ -2867,7 +3020,7 @@ function tabComptes(body, focusId){
 function renderGhCard(host, refresh){
   const u = ghUser(), linked = !!keys.github;
   const card = document.createElement('div'); card.className = 'acc' + (linked ? ' linked' : '');
-  card.innerHTML = `<div class="acc-top"><span class="logo" style="background:#24292f"><svg class="icon" style="width:17px;height:17px;color:#fff"><use href="#i-gh"/></svg></span><div><b>GitHub</b><small>${linked && u ? '@' + esc(u.login) : 'Tes dépôts de code'}</small></div><span class="tier gratuit">gratuit</span></div>
+  card.innerHTML = `<div class="acc-top"><span class="logo" style="background:#24292f">${brandImg('github', 'G')}</span><div><b>GitHub</b><small>${linked && u ? '@' + esc(u.login) : 'Tes dépôts de code'}</small></div><span class="tier gratuit">gratuit</span></div>
     <p>L'IA lit les fichiers de ton dépôt avant de les modifier, puis envoie son code sur une branche et peut ouvrir une pull request.</p>
     <div class="row act"></div><div class="row paste" hidden><input type="password" placeholder="Colle ton jeton GitHub (ghp_…)" autocomplete="off"><button class="btn sm" data-x="clip">Coller</button><button class="btn sm prim" data-x="ok">OK</button></div>`;
   const act = card.querySelector('.act'), paste = card.querySelector('.paste'), inp = paste.querySelector('input');
@@ -2908,7 +3061,7 @@ function tabUsage(body){
   for (const [pid, v] of rows){
     const p = prov(pid) || { name:pid, color:'#888' };
     const r = document.createElement('div'); r.className = 'urow';
-    r.innerHTML = `<div class="nm"><span class="dot" style="background:${p.color}"></span><span>${esc(p.name)}</span></div>
+    r.innerHTML = `<div class="nm">${p.id ? logoTile(p, 20) : `<span class="dot" style="background:${p.color}"></span>`}<span>${esc(p.name)}</span></div>
       <div class="bar" title="${fmtFull(v.in)} entrée · ${fmtFull(v.out)} sortie"><i style="width:${v.in / max * 100}%;background:var(--accent)"></i><i style="width:${v.out / max * 100}%;background:color-mix(in srgb,var(--accent) 45%,var(--panel))"></i></div>
       <div class="v num">↑ ${fmt(v.in)} · ↓ ${fmt(v.out)} · ${v.req} req.</div>
       <div class="umodels">${Object.entries(v.models).sort((x, y) => (y[1].in + y[1].out) - (x[1].in + x[1].out)).map(([m, mv]) => `<div><span>${esc(m)}</span><span class="num">${fmt(mv.in + mv.out)}</span></div>`).join('')}</div>`;
@@ -3121,12 +3274,22 @@ function tabCompte(body){
         <div class="item"><div class="txt"><b>Synchronisation automatique ${syncState === 'ok' ? '<span class="pill ok">à jour</span>' : syncState === 'err' ? '<span class="pill bad">erreur</span>' : syncState === 'locked' ? '<span class="pill bad">verrouillé</span>' : ''}</b><small>${syncMsg ? esc(syncMsg) : last ? 'Dernière synchro : ' + new Date(last).toLocaleString('fr-FR') : 'Pas encore synchronisé.'}</small></div>${switchHtml('aAuto', !store.get('syncOff', false))}</div>
         <div class="item"><div class="txt"><b>Synchroniser maintenant</b><small>Fusionne ce navigateur avec ton compte : conversations des deux côtés, clés réunies.</small></div><button class="btn sm" id="aNow">Synchroniser</button></div>
       </div>
+      ${/Permissions manquantes/.test(syncMsg) ? fixBox() : ''}
+      <h4>Profil</h4>
+      <div class="form"><label>Pseudo<input id="aNick" value="${esc(name || '')}" maxlength="32"></label>${prov === 'email' ? '<label>Nouveau mot de passe<input id="aNewPw" type="password" autocomplete="new-password" placeholder="Laisse vide pour garder l\'actuel"></label>' : '<span></span>'}</div>
+      <div style="display:flex;justify-content:flex-end;margin-top:10px"><button class="btn" id="aProfSave">Enregistrer le profil</button></div>
       <h4>Phrase secrète (chiffrement)</h4>
       <p class="sub" style="margin-bottom:10px">Avec une phrase secrète, tout est chiffré dans ton navigateur avant l'envoi : même le serveur ne peut pas lire tes clés API. Il faudra la retaper sur chaque nouvel appareil. Si tu la perds, les données du cloud sont perdues.</p>
       <div class="field" style="display:flex;gap:8px"><input id="aPass" type="password" style="flex:1;background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:8px 10px" placeholder="${store.get('vaultPass', '') ? '•••••••• (définie)' : 'Choisis une phrase secrète'}" autocomplete="new-password"><button class="btn prim" id="aPassSave">${syncState === 'locked' ? 'Déverrouiller' : 'Enregistrer'}</button></div>
       ${store.get('vaultPass', '') ? '' : '<p style="font-size:12.5px;color:var(--warn);margin:8px 0 0">Sans phrase secrète, tes clés API sont stockées en clair dans ta base (protégée par ton compte).</p>'}
       <h4>Zone sensible</h4>
       <div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn ghost danger" id="aDel">Supprimer mes données du cloud</button></div>`;
+    body.querySelector('#aProfSave').onclick = async () => {
+      const upd = { data:{ full_name: body.querySelector('#aNick').value.trim() } };
+      const np = body.querySelector('#aNewPw')?.value; if (np){ if (np.length < 8){ toast('8 caractères minimum'); return } upd.password = np }
+      const { data, error } = await sb.auth.updateUser(upd); if (error){ toast(authErr(error)); return }
+      sbUser = data.user; renderAcct(); toast('Profil enregistré'); tabCompte(body);
+    };
     body.querySelector('#aOut').onclick = async () => { await sb.auth.signOut(); sbUser = null; renderAcct(); tabCompte(body) };
     body.querySelector('#aAuto').onchange = e => { store.set('syncOff', !e.target.checked); if (e.target.checked) pushCloud() };
     body.querySelector('#aNow').onclick = async () => { store.set('lastSync', null); await pullCloud(); tabCompte(body) };
@@ -3139,12 +3302,15 @@ function tabCompte(body){
   }
   if (cfg){
     body.innerHTML = `<h3>Crée ton compte Agora</h3><p class="sub">Connecte-toi pour retrouver tes comptes IA, tes conversations récentes, tes projets et ton design sur n'importe quel appareil.</p>
+      <div style="display:flex;gap:8px;margin-bottom:18px;flex-wrap:wrap"><button class="btn prim" id="aUp">Créer un compte</button><button class="btn" id="aIn">Se connecter</button></div>
       ${isFile ? '<p class="err" style="margin-bottom:14px">Tu as ouvert Agora comme un fichier. La connexion ne marche que sur un site hébergé en https (GitHub Pages, Netlify, Vercel… voir le guide).</p>' : ''}
-      <div class="sso">${SSO.map(([id, n, c, l]) => `<button data-sso="${id}"><span class="logo" style="background:${c}">${l || '<svg class="icon" style="width:14px;height:14px;fill:#fff;stroke:none" viewBox="0 0 24 24"><path d="M16.4 12.6c0-2.4 2-3.6 2.1-3.7-1.2-1.7-3-1.9-3.6-2-1.5-.2-3 .9-3.8.9s-2-.9-3.3-.9c-1.7 0-3.3 1-4.1 2.5-1.8 3.1-.5 7.6 1.3 10.1.8 1.2 1.8 2.6 3.1 2.5 1.3-.1 1.7-.8 3.3-.8s1.9.8 3.3.8c1.4 0 2.2-1.2 3-2.5.9-1.4 1.3-2.8 1.3-2.8s-2.6-1-2.6-4.1zM14 5.3c.7-.8 1.1-1.9 1-3-1 .1-2.1.7-2.8 1.5-.6.7-1.2 1.8-1 2.9 1 .1 2.1-.6 2.8-1.4z"/></svg>'}</span>Continuer avec ${n}</button>`).join('')}</div>
-      <h4>Ou par e-mail</h4>
+      <div class="sso">${SSO.map(([id, n, c, l]) => `<button data-sso="${id}"><span class="logo" style="background:${c}">${brandImg(id, l)}</span>Continuer avec ${n}</button>`).join('')}</div>
+      <h4>Ou recevoir un lien de connexion par e-mail (sans mot de passe)</h4>
       <div style="display:flex;gap:8px;flex-wrap:wrap"><input id="aMail" type="email" placeholder="toi@exemple.com" style="flex:1;min-width:200px;background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:8px 10px;outline:none"><button class="btn prim" id="aMailGo">Recevoir un lien de connexion</button></div>
       <p style="font-size:12px;color:var(--faint);margin-top:18px">Serveur : ${esc(cfg.url)} ${window.AGORA_CLOUD?.url ? '' : '· <button class="btn ghost sm" id="aReset" style="display:inline-flex">changer</button>'}</p>`;
     body.querySelectorAll('[data-sso]').forEach(b => b.onclick = () => signIn(b.dataset.sso));
+    body.querySelector('#aUp').onclick = () => openAuth('signup');
+    body.querySelector('#aIn').onclick = () => openAuth('login');
     body.querySelector('#aMailGo').onclick = async () => { const m = body.querySelector('#aMail').value.trim(); if (!m) return; if (!sb){ toast('Site non hébergé : impossible ici'); return }
       const { error } = await sb.auth.signInWithOtp({ email:m, options:{ emailRedirectTo: redirectUrl() } }); toast(error ? error.message : 'Lien envoyé, regarde ta boîte mail') };
     body.querySelector('#aReset')?.addEventListener('click', () => { store.set('cloudCfg', null); sb = null; tabCompte(body) });
@@ -3249,7 +3415,10 @@ function importConversations(data){
 function tabSuggestion(body){
   const sent = store.get('sentSuggestions', []);
   const gl = window.AGORA_LINKS?.github;
-  body.innerHTML = `<h3>Envoyer une suggestion</h3><p class="sub">Une idée, un bug, quelque chose qui manque ? Dis-le ici, chaque message est lu.</p>
+  const dest = sb ? '<span class="pill ok">envoi direct</span>' : gl ? '<span class="pill">via GitHub</span>' : '<span class="pill bad">non configuré</span>';
+  body.innerHTML = `<h3>Envoyer une suggestion ${dest}</h3><p class="sub">Une idée, un bug, quelque chose qui manque ? Dis-le ici, chaque message est lu.</p>
+    ${!sb && !gl ? `<div class="msg err" style="border-radius:10px;padding:10px 12px;margin-bottom:14px;font-size:13px;color:var(--danger);background:color-mix(in srgb,var(--danger) 10%,transparent)">${cloudCfg() && !/^https?:/.test(location.protocol) ? 'Ouvre le site en ligne (https) : l\'envoi ne marche pas en ouvrant le fichier en local.' : 'Pour le propriétaire du site : la boîte à suggestions n\'est pas branchée. Remplis <code>AGORA_CLOUD</code> (Supabase) ou <code>AGORA_LINKS.github</code> en haut de <code>index.html</code>. En attendant, ta suggestion sera copiée dans le presse-papiers.'}</div>` : ''}
+    <div id="sgFix"></div>
     <div class="seg" id="sgKind" style="margin-bottom:14px">${[['idee','Idée'],['bug','Bug'],['ia','IA à ajouter'],['autre','Autre']].map(([k, n], i) => `<button data-k="${k}" class="${i === 0 ? 'on' : ''}">${n}</button>`).join('')}</div>
     <div class="form">
       <label class="full">Titre<input id="sgTitle" maxlength="120" placeholder="Ex. Pouvoir épingler une conversation"></label>
@@ -3271,6 +3440,10 @@ function tabSuggestion(body){
     if (sb){
       const { error } = await sb.from('agora_feedback').insert({ user_id: sbUser?.id || null, kind, title, body: text, contact: contact || null, meta });
       if (!error) via = 'envoyée';
+      else {
+        body.querySelector('#sgFix').innerHTML = isPermErr(error) ? fixBox() : `<div class="msg err" style="border-radius:10px;padding:10px 12px;margin-bottom:12px;font-size:13px;color:var(--danger);background:color-mix(in srgb,var(--danger) 10%,transparent)">Supabase a refusé l'envoi : ${esc(error.message)}${/agora_feedback/.test(error.message) ? ' · La table n\'existe pas : lance le script SQL du guide (Réglages > Compte Agora).' : ''}</div>`;
+        if (!gl){ b.disabled = false; b.textContent = 'Envoyer'; return }
+      }
     }
     if (!via && gl){
       const issueBody = `${text}\n\n${contact ? `**Contact :** ${contact}\n\n` : ''}${meta ? '<details><summary>Infos techniques</summary>\n\n```json\n' + JSON.stringify(meta, null, 2) + '\n```\n</details>' : ''}`;
