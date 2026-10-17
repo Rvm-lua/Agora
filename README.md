@@ -45,6 +45,28 @@ Tout se passe dans ton navigateur. Tes clés API et tes conversations restent su
 - **Compte Agora** (facultatif) : connexion avec Discord, GitHub ou par e-mail, synchronisation entre appareils et chiffrement de bout en bout en option.
 - **Installable** comme une application sur téléphone et sur PC.
 
+## Les projets Agora
+
+Agora est réparti en 4 dépôts. Le site est ici ; les trois autres sont reliés dans les dossiers ci-dessous (sous-modules Git).
+
+| Projet | Dossier | Dépôt | Télécharger |
+|---|---|---|---|
+| 🌐 **Site web** | racine | [Rvm-lua/Agora](https://github.com/rvm-lua/Agora) | [Ouvrir le site](https://rvm-lua.github.io/Agora/) |
+| 🧩 **Extension VS Code / Cursor** | [`vscode-extension/`](vscode-extension) | [Rvm-lua/Agora-vscode-extention](https://github.com/rvm-lua/Agora-vscode-extention) | [agora-vscode.vsix](https://github.com/rvm-lua/Agora/releases/latest/download/agora-vscode.vsix) |
+| 🔌 **Extension navigateur** (Chrome, Edge, Brave, Opera) | [`chrome-extension/`](chrome-extension) | [Rvm-lua/Agora-chrome-extention](https://github.com/rvm-lua/Agora-chrome-extention) | [agora-chrome.zip](https://github.com/rvm-lua/Agora/releases/latest/download/agora-chrome.zip) |
+| 🖥️ **Application Windows** | [`app/`](app) | [Rvm-lua/Agora-app](https://github.com/rvm-lua/Agora-app) | [Agora-Setup.exe](https://github.com/rvm-lua/Agora/releases/latest/download/Agora-Setup.exe) |
+
+Récupérer tout d'un coup :
+```
+git clone --recurse-submodules https://github.com/rvm-lua/Agora
+```
+Mettre les dossiers à jour après un changement dans un sous-projet :
+```
+git submodule update --remote
+git commit -am "Mise à jour des sous-projets"
+git push
+```
+
 ## Télécharger
 
 | | Pour | Fichier |
@@ -205,6 +227,7 @@ La politique complète est ici : **[confidentialite.html](https://rvm-lua.github
 | `sw.js` | Ouverture hors ligne |
 | `icon.svg`, `icon-192.png`, `icon-512.png` | Icônes |
 | `confidentialite.html` | Politique de confidentialité (demandée par les stores d'extensions) |
+| `vscode-extension/`, `chrome-extension/`, `app/` | Liens vers les dépôts des extensions et de l'application |
 | `.nojekyll` | Indique à GitHub Pages de servir les fichiers tels quels |
 | `CNAME` | Créé par GitHub si tu ajoutes un domaine personnalisé |
 

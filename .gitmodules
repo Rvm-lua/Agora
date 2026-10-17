@@ -1,0 +1,9 @@
+[submodule "vscode-extension"]
+	path = vscode-extension
+	url = https://github.com/Rvm-lua/Agora-vscode-extention.git
+[submodule "chrome-extension"]
+	path = chrome-extension
+	url = https://github.com/Rvm-lua/Agora-chrome-extention.git
+[submodule "app"]
+	path = app
+	url = https://github.com/Rvm-lua/Agora-app.git
