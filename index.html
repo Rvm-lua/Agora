@@ -24,7 +24,7 @@
    Laisse vide pour configurer depuis Réglages > Compte Agora. */
 window.AGORA_CLOUD = { url: 'https://iiegjllgfqbjlegkafnl.supabase.co', anonKey: 'sb_publishable_5WJn0dElFR5OvzSMSxORag_-0GlqgM5' };
 /* Lien vers ton dépôt GitHub d'Agora (affiché sur la page Applications). Ex. 'https://github.com/ton-pseudo/agora' */
-window.AGORA_LINKS = { github: 'https://rvm-lua.github.io/Agora/' };
+window.AGORA_LINKS = { github: 'https://github.com/rvm-lua/Agora' };
 window.AGORA_VERSION = '0.7.0';
 </script>
 <script>
@@ -541,7 +541,9 @@ main.dropping::after{content:"Dépose tes fichiers ici";position:absolute;inset:
 .auth .tabs2 button{padding:7px;border-radius:8px;font-size:13.5px;color:var(--muted)}
 .auth .tabs2 button.on{background:var(--raise);color:var(--fg);box-shadow:0 1px 3px rgba(0,0,0,.2)}
 .auth .sso{grid-template-columns:1fr}
-.auth .sso button{justify-content:center;padding:9px 14px}
+.auth .sso button{justify-content:center;padding:9px 14px;position:relative}
+.auth .sso button.off{opacity:.55}
+.auth .sso button .pill{position:absolute;right:10px;font-size:10px}
 .auth-sep{display:flex;align-items:center;gap:10px;color:var(--faint);font-size:12px}
 .auth-sep::before,.auth-sep::after{content:"";flex:1;height:1px;background:var(--line)}
 .auth label{display:flex;flex-direction:column;gap:5px;font-size:13px;color:var(--muted)}
@@ -705,7 +707,7 @@ const PROVIDERS = [
     chat:'https://api.anthropic.com/v1/messages', models:'https://api.anthropic.com/v1/models',
     note:'API payante à l\'usage. L\'abonnement Claude.ai ne donne pas accès à l\'API.',
     seed:['claude-opus-5-5','claude-sonnet-5-5','claude-haiku-5-5','claude-fable-5-1'] },
-  { id:'openai', name:'ChatGPT', org:'OpenAI', color:'#10a37f', letter:'G', tier:'payant', usage:true,
+  { id:'openai', icon:'lh:openai', name:'ChatGPT', org:'OpenAI', color:'#10a37f', letter:'G', tier:'payant', usage:true,
     keyUrl:'https://platform.openai.com/api-keys', prefix:/^sk-(proj-|svcacct-)?[A-Za-z0-9_-]{20,}$/,
     chat:'https://api.openai.com/v1/chat/completions', models:'https://api.openai.com/v1/models',
     filter:id => /^(gpt|o\d|chatgpt)/.test(id) && !/audio|realtime|transcribe|tts|search|image|instruct|embedding/.test(id),
@@ -717,11 +719,11 @@ const PROVIDERS = [
     filter:id => /gemini|gemma/.test(id) && !/embed|image|tts|aqa|live/.test(id),
     note:'Gratuit avec un compte Google. Clé en 1 clic sur AI Studio.',
     seed:['gemini-2.5-flash','gemini-2.5-flash-lite','gemini-2.5-pro'] },
-  { id:'xai', name:'Grok', org:'xAI', color:'#55585e', letter:'X', tier:'payant', usage:true,
+  { id:'xai', icon:'lh:grok', name:'Grok', org:'xAI · la société d\'Elon Musk', color:'#111111', letter:'X', tier:'payant', usage:true,
     keyUrl:'https://console.x.ai', prefix:/^xai-/,
     chat:'https://api.x.ai/v1/chat/completions', models:'https://api.x.ai/v1/models',
     filter:id => !/image|imagine/.test(id),
-    note:'API payante. xAI offre parfois des crédits de départ.',
+    note:'L\'IA de xAI (celle de X/Twitter). API payante, des crédits de départ sont parfois offerts. À ne pas confondre avec Groq.',
     seed:['grok-4','grok-3-mini'] },
   { id:'mistral', icon:'mistralai', name:'Mistral', org:'Mistral AI', color:'#f06a1d', letter:'M', tier:'gratuit',
     keyUrl:'https://console.mistral.ai/api-keys', prefix:null,
@@ -735,13 +737,13 @@ const PROVIDERS = [
     freeFilter:m => (m.id||'').endsWith(':free'),
     note:'Un seul compte pour des dizaines de modèles gratuits (Llama, DeepSeek, Qwen, Gemma…). Connexion en 1 clic.',
     seed:['meta-llama/llama-3.3-70b-instruct:free','deepseek/deepseek-r1:free','qwen/qwen-2.5-coder-32b-instruct:free','google/gemma-3-27b-it:free'] },
-  { id:'groq', name:'Groq', org:'Groq', color:'#f05a3a', letter:'Q', tier:'gratuit', usage:true,
+  { id:'groq', icon:'lh:groq', name:'Groq', org:'Hébergeur ultra-rapide · Llama, Qwen…', color:'#f05a3a', letter:'Q', tier:'gratuit', usage:true,
     keyUrl:'https://console.groq.com/keys', prefix:/^gsk_/,
     chat:'https://api.groq.com/openai/v1/chat/completions', models:'https://api.groq.com/openai/v1/models',
     filter:id => !/whisper|guard|tts|playai/.test(id),
-    note:'Gratuit, réponses ultra-rapides.',
+    note:'Gratuit et ultra-rapide. À ne pas confondre avec Grok : Groq fait tourner des IA ouvertes (Llama, Qwen, GPT-OSS) sur ses propres puces.',
     seed:['llama-3.3-70b-versatile','llama-3.1-8b-instant','qwen/qwen3-32b','openai/gpt-oss-120b'] },
-  { id:'cerebras', name:'Cerebras', org:'Cerebras', color:'#e8582a', letter:'B', tier:'gratuit',
+  { id:'cerebras', icon:'lh:cerebras', name:'Cerebras', org:'Cerebras', color:'#e8582a', letter:'B', tier:'gratuit',
     keyUrl:'https://cloud.cerebras.ai', prefix:/^csk-/,
     chat:'https://api.cerebras.ai/v1/chat/completions', models:'https://api.cerebras.ai/v1/models',
     note:'Gratuit, très haut débit.',
@@ -769,9 +771,10 @@ PROVIDERS.push(
 );
 PROVIDERS.forEach(p => { if (p.needsKey === undefined) p.needsKey = true });
 const isAgent = p => p?.kind === 'agent';
-/* Logos officiels via la bibliothèque Simple Icons (CC0) ; lettre si la marque n'y figure pas */
+/* Logos officiels via les bibliothèques Simple Icons (CC0) et LobeHub Icons (MIT) ; lettre si le logo ne charge pas */
 const SI = 'https://cdn.jsdelivr.net/npm/simple-icons@16.33.0/icons/';
-const brandImg = (slug, letter = '') => `<img class="bimg" src="${SI}${slug}.svg" alt="" data-l="${esc(letter)}" onerror="this.replaceWith(document.createTextNode(this.dataset.l))">`;
+const LH = 'https://cdn.jsdelivr.net/npm/@lobehub/icons-static-svg@1.95.0/icons/';
+const brandImg = (slug, letter = '') => `<img class="bimg" src="${slug.startsWith('lh:') ? LH + slug.slice(3) : SI + slug}.svg" alt="" data-l="${esc(letter)}" onerror="this.replaceWith(document.createTextNode(this.dataset.l))">`;
 const logoTile = (p, size) => `<span class="logo" style="background:${p.color}${size ? `;width:${size}px;height:${size}px;font-size:${Math.round(size / 2)}px` : ''}">${p.icon ? brandImg(p.icon, p.letter) : p.id === 'pollinations' ? '<img class="bimg own" src="icon.svg" alt="" onerror="this.replaceWith(document.createTextNode(\'A\'))">' : esc(p.letter)}</span>`;
 
 const CATS = ['Tous','Général','Code','Raisonnement','Rapide','Vision'];
@@ -2864,12 +2867,13 @@ async function renderAuth(box, mode){
   }
   const isUp = mode === 'signup', isReset = mode === 'reset';
   const prov = await loadAuthProviders();
-  const sso = SSO.filter(([id]) => !prov || prov[id]);
+  const sso = [...SSO].sort((a, b) => (prov && !prov[a[0]]) - (prov && !prov[b[0]]));
+  const ssoOff = id => !!prov && !prov[id];
   const emailOn = !prov || prov.email !== false;
   box.innerHTML = top(isReset ? 'Mot de passe oublié' : isUp ? 'Crée ton compte Agora' : 'Content de te revoir',
       isReset ? 'Entre ton e-mail, on t\'envoie un lien pour choisir un nouveau mot de passe.' : isUp ? 'Retrouve tes IA, tes conversations et tes projets sur tous tes appareils.' : 'Connecte-toi pour retrouver toutes tes données.')
     + (isReset ? '' : `<div class="tabs2"><button data-m="signup" class="${isUp ? 'on' : ''}">Créer un compte</button><button data-m="login" class="${!isUp ? 'on' : ''}">Se connecter</button></div>`)
-    + (!isReset && sso.length ? `<div class="sso">${sso.map(([id, n, c, l]) => `<button data-sso="${id}"><span class="logo" style="background:${c}">${brandImg(id, l)}</span>Continuer avec ${n}</button>`).join('')}</div>${emailOn ? '<div class="auth-sep">ou avec ton e-mail</div>' : ''}` : '')
+    + (!isReset && sso.length ? `<div class="sso">${sso.map(([id, n, c, l]) => `<button data-sso="${id}" class="${ssoOff(id) ? 'off' : ''}" ${ssoOff(id) ? 'title="Pas encore activé sur ce site"' : ''}><span class="logo" style="background:${c}">${brandImg(id, l)}</span>Continuer avec ${n}${ssoOff(id) ? '<span class="pill">bientôt</span>' : ''}</button>`).join('')}</div>${emailOn ? '<div class="auth-sep">ou avec ton e-mail</div>' : ''}` : '')
     + (emailOn ? `<form id="auForm" novalidate style="display:flex;flex-direction:column;gap:12px">
         ${isUp ? '<label>Pseudo<input type="text" id="auName" autocomplete="nickname" maxlength="32" placeholder="Comment on t\'appelle ?"></label>' : ''}
         <label>E-mail<input type="email" id="auMail" autocomplete="email" placeholder="toi@exemple.com" value="${esc(store.get('lastEmail', ''))}"></label>
@@ -2882,7 +2886,11 @@ async function renderAuth(box, mode){
     + (isUp ? '<small class="legal">Sans compte, Agora marche aussi : tes données restent alors dans ce navigateur. Avec un compte, elles sont synchronisées et tu peux les chiffrer avec une phrase secrète.</small>' : '');
   orb();
   box.querySelectorAll('[data-m]').forEach(b => b.onclick = () => renderAuth(box, b.dataset.m));
-  box.querySelectorAll('[data-sso]').forEach(b => b.onclick = () => signIn(b.dataset.sso));
+  box.querySelectorAll('[data-sso]').forEach(b => b.onclick = () => {
+    if (!b.classList.contains('off')) return signIn(b.dataset.sso);
+    const n = SSO.find(x => x[0] === b.dataset.sso)[1];
+    const m = box.querySelector('.msg'); if (m){ m.hidden = false; m.className = 'msg err'; m.textContent = `La connexion avec ${n} n'est pas encore activée sur ce site. Crée ton compte avec ton e-mail en attendant : tu pourras te connecter pareil ensuite.` } else toast(`Connexion avec ${n} pas encore activée`);
+  });
   box.querySelector('[data-eye]')?.addEventListener('click', e => { const i = box.querySelector('#auPw'); i.type = i.type === 'password' ? 'text' : 'password'; e.target.textContent = i.type === 'password' ? 'Voir' : 'Cacher' });
   const pw = box.querySelector('#auPw'), bar = box.querySelector('.strength i');
   if (pw && bar) pw.oninput = () => { const sc = pwScore(pw.value); bar.style.width = (sc * 20) + '%'; bar.style.background = sc < 2 ? 'var(--danger)' : sc < 4 ? 'var(--warn)' : 'var(--accent)' };
