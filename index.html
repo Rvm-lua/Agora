@@ -7,8 +7,9 @@
 <meta name="description" content="Agora : toutes les IA gratuites dans un seul chat. Code, projets, GitHub, assistants.">
 <link rel="manifest" href="manifest.webmanifest">
 <meta name="theme-color" content="#17181b">
-<link rel="icon" href="icon.svg" type="image/svg+xml">
-<link rel="apple-touch-icon" href="icon-192.png">
+<link rel="icon" href="favicon.svg?v=4" type="image/svg+xml">
+<link rel="icon" href="favicon-32.png?v=4" type="image/png" sizes="32x32">
+<link rel="apple-touch-icon" href="favicon-180.png?v=4">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500&family=Figtree:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/12.0.2/marked.min.js"></script>
@@ -631,6 +632,7 @@ main.dropping::after{content:"Dépose tes fichiers ici";position:absolute;inset:
 
 <aside id="side">
   <div class="brand">
+    <span id="brandOrb" style="display:flex;width:30px;height:30px;flex:none"></span>
     <b>Agora</b>
     <button class="iconbtn tog" id="closeSide" title="Masquer la barre latérale"><svg class="icon"><use href="#i-side"/></svg></button>
   </div>
@@ -1018,11 +1020,11 @@ function readTint(){
   orbTint = m ? { r:parseInt(m[1].slice(0,2),16), g:parseInt(m[1].slice(2,4),16), b:parseInt(m[1].slice(4,6),16) } : null;
 }
 darkMq.addEventListener('change', () => { if (design.theme === 'system') applyDesign() });
-function makeOrb(state, size = 20, cssSize){
+function makeOrb(state, size = 20, cssSize, noTint){
   const c = document.createElement('canvas'); c.className = 'orb'; c.setAttribute('role','img');
   const px = cssSize || size; c.style.width = c.style.height = px + 'px';
   const dpr = Math.min(2, devicePixelRatio || 1); c.width = c.height = Math.round(px * dpr);
-  const o = { c, size, px, dpr, ctx:c.getContext('2d'), paused:false };
+  const o = { c, size, px, dpr, ctx:c.getContext('2d'), paused:false, noTint:!!noTint };
   o.set = s => { if (o.state === s) return; o.state = s; c.setAttribute('aria-label', ORB_LABELS[s] || s);
     if (!window.OrbEngine) return; const r = OrbEngine.resolvePreset(s, size); o.mode = r.mode; o.speed = r.speed; o.opts = r.opts; drawOrb(o, performance.now()/1000*o.speed) };
   o.pause = () => { o.paused = true; drawOrb(o, .6) };
@@ -1034,7 +1036,7 @@ function drawOrb(o, t){
   if (!window.OrbEngine || !o.mode) return;
   const k = o.px / o.size;
   o.ctx.setTransform(o.dpr*k, 0, 0, o.dpr*k, 0, 0); o.ctx.clearRect(0, 0, o.size, o.size);
-  OrbEngine.paintFrame(o.ctx, OrbEngine.MODE_FRAMES[o.mode](o.size, t, o.opts), isDarkNow(), orbTint || undefined);
+  OrbEngine.paintFrame(o.ctx, OrbEngine.MODE_FRAMES[o.mode](o.size, t, o.opts), isDarkNow(), o.noTint ? undefined : (orbTint || undefined));
 }
 function startOrbs(){
   if (orbLoop) return;
@@ -3516,6 +3518,7 @@ if (innerWidth < 760) $('#side').classList.add('closed');
 if (window.mermaid){ try{ mermaid.initialize({ startOnLoad:false, theme: darkMq.matches ? 'dark' : 'default', securityLevel:'strict' }) }catch{} }
 
 applyDesign();
+$('#brandOrb').append(makeOrb('composing', 64, 30, true).c);
 renderConvList(); renderMessages(); renderModelLbl(); renderTags(); renderSideMeta(); updateComposer(); input.focus();
 initCloud();
 finishOpenRouterLogin();
