@@ -74,3 +74,29 @@ Vos idées et bugs sont toujours les bienvenus. Ouvrez un ticket via l’onglet 
 - Orbes animées : [thinking‑orbs](https://github.com/Jakubantalik/thinking-orbs) © Jakub Antalik, licence MIT.
 - Bibliothèques : marked, DOMPurify, highlight.js, Mermaid, pdf.js, supabase-js.
 - Agora Gratuit fourni par [Pollinations.ai](https://pollinations.ai).
+
+## Politique de confidentialité
+
+Site Agora, extension Chrome et extension VS Code · mise à jour le 17 octobre 2026
+
+Agora est un outil gratuit qui permet de discuter avec plusieurs IA. Il n'a pas de serveur qui lit tes messages : tout se passe dans ton navigateur ou ton éditeur.
+
+### Ce qui reste sur ton appareil
+
+- Tes clés API, tes réglages et tes discussions sont enregistrés localement (stockage du navigateur ou de l'éditeur).
+- Agora ne vend, ne partage et n'analyse aucune donnée. Il n'y a ni publicité ni outil de mesure d'audience.
+
+### Ce qui est envoyé, et à qui
+
+- **Tes messages** partent directement vers l'IA que tu as choisie (par exemple Groq, Google Gemini, Mistral, OpenAI, Anthropic, xAI, OpenRouter, Cerebras ou Pollinations pour Agora Gratuit). Leur propre politique de confidentialité s'applique.
+- **Le contenu d'une page web** n'est lu par l'extension Chrome que quand tu le demandes (bouton « Joindre la page », résumé ou clic droit). Il est alors envoyé à l'IA choisie avec ta question, et nulle part ailleurs.
+- **Le texte sélectionné** n'est envoyé que quand tu utilises un menu Agora du clic droit.
+- **Import des clés** : ce bouton lit les clés que tu as enregistrées sur le site Agora, dans ton propre navigateur, et les copie dans l'extension.
+
+### Compte Agora (facultatif)
+
+Si tu crées un compte sur le site, tes réglages et discussions sont synchronisés dans une base Supabase. Avec une phrase secrète, ils sont chiffrés dans ton navigateur avant l'envoi. Tu peux supprimer ton compte à tout moment depuis les réglages.
+
+### Contact
+
+Pour toute question : <https://github.com/rvm-lua/Agora/issues>.
