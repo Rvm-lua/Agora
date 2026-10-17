@@ -58,17 +58,6 @@ Tout se passe dans ton navigateur. Tes clés API et tes conversations restent su
 - **Avec un compte**, les données sont synchronisées dans la base Supabase du propriétaire du site. Avec une **phrase secrète**, elles sont chiffrées dans ton navigateur avant l'envoi (AES-256).
 - La lecture de documentation passe par [Jina Reader](https://jina.ai/reader/). Tu peux changer ce service dans **Réglages**, puis **Général**.
 
-## Fichiers
-
-| Fichier | Rôle |
-|---|---|
-| `index.html` | L'application complète |
-| `manifest.webmanifest` | Installation comme application |
-| `sw.js` | Ouverture hors ligne |
-| `icon.svg`, `icon-192.png`, `icon-512.png` | Icônes |
-| `.nojekyll` | Indique à GitHub Pages de servir les fichiers tels quels |
-| `CNAME` | Créé par GitHub si tu ajoutes un domaine personnalisé |
-
 ## Feuille de route
 
 - [x] Chat multi-IA, comparaison, pièces jointes, assistants
