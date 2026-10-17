@@ -2424,11 +2424,9 @@ function pickAgent(id){
    ===================================================================== */
 const APPS = [
   { id:'windows', title:'Application Windows', desc:'Agora sur ton PC : un raccourci clavier pour l\'ouvrir de partout, tes fichiers locaux, les notifications.', rows:[['Windows','i-win']], art:'win' },
-  { id:'mobile', title:'Mobile', desc:'Discute en déplacement, dicte tes messages, retrouve tes conversations synchronisées.', rows:[['iOS','i-phone'],['Android','i-phone']], art:'phone', pwa:true },
-  { id:'vscode', title:'Extension VS Code', desc:'Agora dans ton éditeur : explique ou corrige la sélection, codes secrets, envoi direct dans tes fichiers.', rows:[['VS Code','i-code'],['Cursor','i-code']], art:'editor' },
+  { id:'mobile', title:'Mobile', desc:'Discute en déplacement, dicte tes messages, retrouve tes conversations synchronisées.', rows:[['iOS','i-phone'],['Android','i-phone']], art:'phone' },
+  { id:'vscode', title:'Extension VS Code', desc:'Agora dans ton éditeur : explique ou corrige la sélection, codes secrets, envoi direct dans tes fichiers.', rows:[['VS Code','i-code','https://marketplace.visualstudio.com/items?itemName=Rvm-lua.agora'],['Cursor','i-code','https://marketplace.visualstudio.com/items?itemName=Rvm-lua.agora']], art:'editor', live:true },
   { id:'chrome', title:'Extension Chrome', desc:'Résume la page, explique le code d\'un dépôt GitHub, aide à remplir des formulaires.', rows:[['Chrome','i-globe'],['Edge','i-globe']], art:'browser' },
-  { id:'discord', title:'Bot Discord', desc:'Agora dans ton serveur : réponses aux questions des joueurs, annonces, modération assistée.', rows:[['Discord','i-chat']], art:'discord' },
-  { id:'fivem', title:'Ressource FiveM', desc:'Une commande en jeu pour ton staff : aide sur les règles, logs du serveur expliqués, réponses rapides.', rows:[['FiveM','i-code']], art:'game' },
 ];
 let installEvt = null;
 addEventListener('beforeinstallprompt', e => { e.preventDefault(); installEvt = e });
@@ -2447,10 +2445,10 @@ function openApps(){
   const gl = window.AGORA_LINKS?.github;
   const s2 = document.createElement('div'); s2.className = 'scrim apps-scrim';
   s2.innerHTML = `<div class="apps" role="dialog" aria-label="Applications"><div class="apps-head"><div><h2>Agora partout</h2><p>Les applications et extensions arrivent. Clique sur « Me prévenir » pour celles qui t'intéressent.</p></div><button class="iconbtn" data-close title="Fermer"><svg class="icon"><use href="#i-x"/></svg></button></div>
-    <div class="apps-grid">${APPS.map(a => `<section class="appcard"><div class="apptop"><h3>${a.title}</h3><span class="pill dev">En développement</span></div><p>${a.desc}</p>
-      <div class="approws">${a.rows.map(([n, ic]) => `<div class="approw"><span><svg class="icon"><use href="#${ic}"/></svg>${n}</span><button class="btn sm" disabled>Bientôt</button></div>`).join('')}
+    <div class="apps-grid">${APPS.map(a => `<section class="appcard"><div class="apptop"><h3>${a.title}</h3>${a.live ? '<span class="pill ok">Disponible</span>' : '<span class="pill dev">En développement</span>'}</div><p>${a.desc}</p>
+      <div class="approws">${a.rows.map(([n, ic, url]) => `<div class="approw"><span><svg class="icon"><use href="#${ic}"/></svg>${n}</span>${url ? `<a class="btn sm prim" href="${esc(url)}" target="_blank" rel="noopener">Installer</a>` : '<button class="btn sm" disabled>Bientôt</button>'}</div>`).join('')}
       ${a.pwa ? `<div class="approw"><span><svg class="icon"><use href="#i-dl"/></svg>Version web à installer <span class="pill ok">disponible</span></span><button class="btn sm prim" data-pwa>Installer</button></div>` : ''}</div>
-      <div class="appactions"><button class="btn sm${interest.has(a.id) ? ' on' : ''}" data-int="${a.id}">${interest.has(a.id) ? '✓ Tu seras prévenu' : 'Me prévenir'}</button>${gl ? `<a class="btn sm ghost" href="${esc(gl)}" target="_blank" rel="noopener"><svg class="icon" style="width:14px;height:14px"><use href="#i-gh"/></svg>Suivre sur GitHub</a>` : ''}</div>
+      ${a.live ? '' : `<div class="appactions"><button class="btn sm${interest.has(a.id) ? ' on' : ''}" data-int="${a.id}">${interest.has(a.id) ? '✓ Tu seras prévenu' : 'Me prévenir'}</button>${gl ? `<a class="btn sm ghost" href="${esc(gl)}" target="_blank" rel="noopener"><svg class="icon" style="width:14px;height:14px"><use href="#i-gh"/></svg>Suivre sur GitHub</a>` : ''}</div>`}
       ${appArt(a.art)}</section>`).join('')}</div></div>`;
   document.body.append(s2);
   s2.onclick = e => { if (e.target === s2 || e.target.closest('[data-close]')) s2.remove() };

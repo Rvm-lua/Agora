@@ -65,7 +65,7 @@ Tout se passe dans ton navigateur. Tes clés API et tes conversations restent su
 - [x] Comptes et synchronisation
 - [ ] Application Windows
 - [ ] Applications iOS et Android
-- [ ] Extension VS Code
+- [x] [Extension VS Code et Cursor](https://marketplace.visualstudio.com/items?itemName=Rvm-lua.agora)
 - [ ] Extension Chrome
 - [ ] Bot Discord
 - [ ] Ressource FiveM
